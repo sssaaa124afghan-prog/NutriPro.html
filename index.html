@@ -249,6 +249,24 @@ body{font-family:'Cairo',sans-serif;background:var(--bg1);color:var(--tx);min-he
 .score-bad{background:rgba(248,113,113,.12);color:var(--no)}
 
 @media print{*{color:#000!important;background:#fff!important}.bnav,.hdr,.btn,.mo,.tc{display:none!important}body{padding:5px!important}}
+
+/* ─── STREAK ─── */
+.streak-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:linear-gradient(135deg,rgba(255,95,46,.07),rgba(167,139,250,.05));border:1px solid rgba(255,95,46,.12);border-radius:12px;margin-bottom:10px}
+.streak-fire{font-size:1.6em;animation:fireAnim 1.5s infinite alternate}
+@keyframes fireAnim{from{transform:scale(1)}to{transform:scale(1.15)}}
+.streak-info{flex:1}
+.streak-num{font-size:1.25em;font-weight:900;color:var(--cal);line-height:1}
+.streak-label{font-size:.62em;color:var(--tx2);margin-top:1px}
+
+/* ─── WEIGHT LOG ─── */
+.weight-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--bd2)}
+.weight-row:last-child{border:none}
+.weight-date{font-size:.7em;color:var(--tx2);min-width:70px}
+.weight-val{font-size:.95em;font-weight:900;color:var(--pro)}
+.weight-diff{font-size:.68em;font-weight:700;padding:2px 7px;border-radius:8px}
+.weight-diff.up{background:rgba(248,113,113,.1);color:var(--no)}
+.weight-diff.dn{background:rgba(52,211,153,.1);color:var(--ok)}
+.weight-diff.eq{background:var(--bg4);color:var(--tx2)}
 </style>
 </head>
 <body>
@@ -276,6 +294,7 @@ body{font-family:'Cairo',sans-serif;background:var(--bg1);color:var(--tx);min-he
     <div class="card" id="ringsCard"></div>
     <div id="remainBars"></div>
     <div id="waterSection"></div>
+    <div id="streakArea"></div>
     <div id="suggestArea"></div>
     <div class="card">
       <div class="ct">📝 وجبات اليوم <span class="bdg" style="background:rgba(255,95,46,.08);color:var(--cal)" id="mealCount">0</span></div>
@@ -360,6 +379,7 @@ body{font-family:'Cairo',sans-serif;background:var(--bg1);color:var(--tx);min-he
       <div class="bg2" style="margin-top:0;margin-bottom:10px">
         <button class="btn btn-p" onclick="showAddFood()">➕ أكلة</button>
         <button class="btn btn-ai btn-sm" onclick="showAIAddFood()">🤖 AI</button>
+        <button class="btn btn-pu btn-sm" onclick="showImgAnalyze()">📸</button>
         <button class="btn btn-dk btn-sm" onclick="expData()">📤</button>
         <button class="btn btn-dk btn-sm" onclick="document.getElementById('impF').click()">📥</button>
         <input type="file" id="impF" accept=".json" onchange="impData(event)" style="display:none">
@@ -418,12 +438,28 @@ body{font-family:'Cairo',sans-serif;background:var(--bg1);color:var(--tx);min-he
   </div>
 </div>
 
+<!-- Weight Modal -->
+<div class="mo" id="weightMo">
+  <div class="mdl"><div class="mdl-h"></div>
+    <div class="mh"><h2>⚖️ تسجيل الوزن</h2><button class="mx" onclick="clM('weightMo')">&times;</button></div>
+    <div class="mb" id="weightMoB"></div>
+  </div>
+</div>
+
+<!-- Image Analyze Modal -->
+<div class="mo" id="imgAnalyzeMo">
+  <div class="mdl"><div class="mdl-h"></div>
+    <div class="mh"><h2>📸 تحليل صورة الأكل</h2><button class="mx" onclick="clM('imgAnalyzeMo')">&times;</button></div>
+    <div class="mb" id="imgAnalyzeMoB"></div>
+  </div>
+</div>
+
 <script>
 // ══════════════════════════════════════════
 //  CORE STATE
 // ══════════════════════════════════════════
 const K='nutriProAI_v2';
-let N={goals:{cal:2500,pro:180,carb:280,fat:70},profile:{age:25,weight:80,height:175,gender:'male',activity:'moderate'},foods:{},log:{},water:{},viewDate:null};
+let N={goals:{cal:2500,pro:180,carb:280,fat:70},profile:{age:25,weight:80,height:175,gender:'male',activity:'moderate'},foods:{},log:{},water:{},weightLog:{},viewDate:null};
 let selectedFoodId=null;
 let aiHistory=[];
 
@@ -533,7 +569,7 @@ function getDayTotals(date){
   return meals.reduce((t,m)=>({cal:t.cal+m.cal,pro:t.pro+m.pro,carb:t.carb+m.carb,fat:t.fat+m.fat}),{cal:0,pro:0,carb:0,fat:0});
 }
 
-function renderAll(){renderRings();renderRemain();renderWater();renderLogged();renderSuggestions()}
+function renderAll(){renderRings();renderRemain();renderWater();renderLogged();renderSuggestions();renderStreak()}
 
 function renderRings(){
   const t=getDayTotals(),g=N.goals;
@@ -632,7 +668,7 @@ let searchTimer=null;
 function searchFood(){
   const q=document.getElementById('foodSearch').value.trim();
   const res=document.getElementById('searchResults');
-  if(!q){res.classList.remove('show');return}
+  if(!q){res.classList.remove('show');clearTimeout(searchTimer);return}
 
   const local=Object.entries(N.foods).filter(([id,f])=>f.name.toLowerCase().includes(q.toLowerCase())).slice(0,10);
   if(local.length){
@@ -641,9 +677,14 @@ function searchFood(){
       <div class="sr-macros"><span class="m-cal">${f.cal}c</span><span class="m-pro">${f.pro}p</span><span class="m-carb">${f.carb}c</span><span class="m-fat">${f.fat}f</span></div>
     </div>`).join('');
     res.classList.add('show');
+    clearTimeout(searchTimer);
   }else{
-    res.innerHTML=`<div style="padding:10px 12px;font-size:.78em;color:var(--tx2)">لا نتائج محلية... <span style="color:var(--pu);font-weight:800" onclick="aiSearchFood('${q}')">🤖 ابحث بالـ AI</span></div>`;
+    // Show loading indicator immediately
+    res.innerHTML=`<div style="padding:10px 12px;font-size:.78em;color:var(--pu)">🤖 بيجيب الماكروز...</div>`;
     res.classList.add('show');
+    // Debounce: wait 800ms after user stops typing before calling AI
+    clearTimeout(searchTimer);
+    searchTimer=setTimeout(()=>aiSearchFood(q), 800);
   }
 }
 
@@ -656,10 +697,14 @@ async function aiSearchFood(q){
       `أنت خبير تغذية. المستخدم يبحث عن: "${q}". أعطني القيم الغذائية لكل 100 جرام أو للوحدة الطبيعية. أجب بـ JSON فقط بهذا الشكل:
 {"name":"اسم الأكلة","cal":0,"pro":0,"carb":0,"fat":0,"unit":"جرام","per":100,"cat":"تصنيف"}
 لا تضف أي نص آخر.`,
-      [],1
+      [],400
     );
-    const food=JSON.parse(resp);
-    res.innerHTML=`<div class="sr-item" onclick="selectAiFood(${JSON.stringify(food).replace(/"/g,'&quot;')})">
+    const cleanR=resp.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+    const matchR=cleanR.match(/\{[\s\S]*\}/);
+    if(!matchR)throw new Error('no json');
+    const food=JSON.parse(matchR[0]);
+    window._tmpSrFood=food;
+    res.innerHTML=`<div class="sr-item" onclick="selectAiFood(window._tmpSrFood)">
       <div><div class="sr-name">${food.name} <span class="sr-ai-badge">AI ✨</span></div></div>
       <div class="sr-macros"><span class="m-cal">${food.cal}c</span><span class="m-pro">${food.pro}p</span><span class="m-carb">${food.carb}c</span><span class="m-fat">${food.fat}f</span></div>
     </div>`;
@@ -872,13 +917,17 @@ async function doAiAddFood(){
 
   try{
     const resp=await callClaude(
-      `أنت خبير تغذية. أعطني القيم الغذائية الدقيقة لـ "${name}". أجب بـ JSON فقط:
+      `أنت خبير تغذية. أعطني القيم الغذائية الدقيقة لـ "${name}". أجب بـ JSON فقط بدون أي نص إضافي أو backticks:
 {"name":"الاسم بالعربي","cal":0,"pro":0,"carb":0,"fat":0,"unit":"جرام","per":100,"cat":"التصنيف"}
 التصنيفات المتاحة: بروتين، كارب، دهون، فاكهة، خضار، ألبان، سناك، أخرى
-لا تضف أي نص آخر غير JSON.`,
-      [],1
+مهم: أرجع JSON فقط بدون أي نص قبله أو بعده.`,
+      [],400
     );
-    const food=JSON.parse(resp);
+    const cleaned=resp.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+    const match=cleaned.match(/\{[\s\S]*\}/);
+    if(!match)throw new Error('لم يتم استلام JSON صحيح');
+    const food=JSON.parse(match[0]);
+    window._tmpAiFood=food;
     document.getElementById('aiAddResult').innerHTML=`
       <div class="macro-card">
         <div class="macro-pill cal">🔥 ${food.cal}</div>
@@ -887,7 +936,7 @@ async function doAiAddFood(){
         <div class="macro-pill fat">💧 ${food.fat}g</div>
       </div>
       <div style="font-size:.78em;color:var(--tx2);text-align:center;margin:6px 0">لكل ${food.per} ${food.unit}</div>
-      <button class="btn btn-ai btn-full" onclick="confirmAiFood(${JSON.stringify(food).replace(/"/g,'&quot;')})">✅ حفظ ${food.name}</button>`;
+      <button class="btn btn-ai btn-full" onclick="confirmAiFood(window._tmpAiFood)">✅ حفظ ${food.name}</button>`;
   }catch(e){
     document.getElementById('aiAddResult').innerHTML=`<div style="color:var(--no);font-size:.75em;text-align:center">خطأ: ${e.message}</div>`;
   }
@@ -977,6 +1026,175 @@ function renderStats(){
   }else{
     document.getElementById('bestDay').innerHTML='<div class="empty"><h3>لا بيانات بعد</h3></div>';
   }
+}
+
+// ══════════════════════════════════════════
+//  STREAK
+// ══════════════════════════════════════════
+function calcStreak(){
+  let streak=0;
+  const d=new Date();
+  while(true){
+    const key=d.toISOString().split('T')[0];
+    const meals=N.log[key]||[];
+    if(meals.length===0) break;
+    streak++;
+    d.setDate(d.getDate()-1);
+  }
+  return streak;
+}
+
+function renderStreak(){
+  const s=calcStreak();
+  if(s===0){document.getElementById('streakArea').innerHTML='';return}
+  const msg=s>=30?'أسطورة! 🏆':s>=14?'رائع جداً! 💎':s>=7?'أسبوع متواصل! 🔥':s>=3?'استمر! 💪':'بداية جيدة!';
+  document.getElementById('streakArea').innerHTML=`
+    <div class="streak-bar" onclick="openWeightLog()" style="cursor:pointer">
+      <div class="streak-fire">🔥</div>
+      <div class="streak-info">
+        <div class="streak-num">${s} ${s===1?'يوم':'أيام'} متتالية</div>
+        <div class="streak-label">${msg} · اضغط لتسجيل الوزن ⚖️</div>
+      </div>
+      <div style="font-size:1.8em">${s>=7?'🏅':s>=3?'⭐':'✨'}</div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════
+//  WEIGHT LOG
+// ══════════════════════════════════════════
+function openWeightLog(){
+  const today=todayK();
+  const todayW=N.weightLog[today]||'';
+  const entries=Object.entries(N.weightLog).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,14);
+  
+  let histHTML='';
+  if(entries.length>1){
+    histHTML='<div style="margin-top:12px"><div class="ct" style="border:none;padding:0;margin-bottom:8px;font-size:.78em">📅 السجل</div>';
+    entries.forEach(([date,w],i)=>{
+      const prev=entries[i+1]?entries[i+1][1]:null;
+      const diff=prev?(w-prev).toFixed(1):null;
+      const cls=diff===null?'eq':diff>0?'up':'dn';
+      const sign=diff>0?'+':'';
+      const d=new Date(date+'T12:00:00');
+      const mn=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+      histHTML+=`<div class="weight-row">
+        <span class="weight-date">${d.getDate()} ${mn[d.getMonth()]}</span>
+        <span class="weight-val">${w} kg</span>
+        ${diff!==null?`<span class="weight-diff ${cls}">${sign}${diff}</span>`:'<span class="weight-diff eq">أول تسجيل</span>'}
+      </div>`;
+    });
+    histHTML+='</div>';
+  }
+
+  document.getElementById('weightMoB').innerHTML=`
+    <div class="fi"><label>⚖️ وزنك اليوم (kg)</label>
+      <input type="number" id="wInput" value="${todayW}" placeholder="مثال: 82.5" inputmode="decimal" step="0.1">
+    </div>
+    <button class="btn btn-p btn-full" onclick="saveWeight()">💾 حفظ</button>
+    ${histHTML}`;
+  document.getElementById('weightMo').classList.add('act');
+}
+
+function saveWeight(){
+  const w=parseFloat(document.getElementById('wInput').value);
+  if(!w||w<20||w>300)return toast('أدخل وزن صحيح','e');
+  N.weightLog[todayK()]=w;
+  saveD();
+  clM('weightMo');
+  toast('⚖️ تم حفظ الوزن: '+w+' kg','s');
+  renderStreak();
+}
+
+// ══════════════════════════════════════════
+//  IMAGE FOOD ANALYZE
+// ══════════════════════════════════════════
+function showImgAnalyze(){
+  if(!getApiKey()){toast('🔑 أضف API Key في صفحة AI أولاً','e');return}
+  document.getElementById('imgAnalyzeMoB').innerHTML=`
+    <div style="text-align:center;margin-bottom:12px">
+      <div style="font-size:.78em;color:var(--tx2);margin-bottom:10px">صوّر أكلتك أو اختر صورة من الجهاز</div>
+      <label style="display:inline-block;cursor:pointer">
+        <div class="btn btn-ai" style="padding:12px 24px;font-size:.85em">📸 اختر صورة</div>
+        <input type="file" accept="image/*" capture="environment" id="foodImgInput" style="display:none" onchange="analyzeImage(event)">
+      </label>
+    </div>
+    <div id="imgAnalyzeResult"></div>`;
+  document.getElementById('imgAnalyzeMo').classList.add('act');
+}
+
+async function analyzeImage(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const res=document.getElementById('imgAnalyzeResult');
+  res.innerHTML=`<div style="text-align:center;color:var(--pu);padding:14px;font-size:.8em">🤖 يحلل الصورة...</div>`;
+  
+  // Convert to base64
+  const b64=await new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=ev=>resolve(ev.target.result.split(',')[1]);
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+
+  const imgURL=URL.createObjectURL(file);
+  
+  try{
+    const apiKey=getApiKey();
+    const resp=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},
+      body:JSON.stringify({
+        model:'meta-llama/llama-4-scout-17b-16e-instruct',
+        max_tokens:400,
+        messages:[{
+          role:'user',
+          content:[
+            {type:'image_url',image_url:{url:'data:'+file.type+';base64,'+b64}},
+            {type:'text',text:`أنت خبير تغذية. حلل هذه الأكلة وأعطني القيم الغذائية التقريبية للكمية الظاهرة في الصورة. أجب بـ JSON فقط بدون أي نص إضافي:
+{"name":"اسم الأكلة","cal":0,"pro":0,"carb":0,"fat":0,"unit":"جرام","per":100,"cat":"تصنيف","notes":"ملاحظة قصيرة"}
+التصنيفات: بروتين، كارب، دهون، فاكهة، خضار، ألبان، سناك، أخرى`}
+          ]
+        }]
+      })
+    });
+    if(!resp.ok){const e=await resp.json();throw new Error(e.error?.message||'Error')}
+    const data=await resp.json();
+    const txt=data.choices?.[0]?.message?.content||'';
+    const match=txt.replace(/\`\`\`json|\`\`\`/g,'').trim().match(/\{[\s\S]*\}/);
+    if(!match)throw new Error('لم يتم تحليل الصورة');
+    const food=JSON.parse(match[0]);
+    window._tmpImgFood=food;
+    res.innerHTML=`
+      <img src="${imgURL}" style="width:100%;border-radius:10px;margin-bottom:10px;max-height:180px;object-fit:cover">
+      <div style="font-weight:800;font-size:.88em;margin-bottom:8px;color:var(--tx)">${food.name}</div>
+      ${food.notes?`<div style="font-size:.72em;color:var(--tx2);margin-bottom:8px;font-style:italic">${food.notes}</div>`:''}
+      <div class="macro-card">
+        <div class="macro-pill cal">🔥 ${food.cal}</div>
+        <div class="macro-pill pro">💪 ${food.pro}g</div>
+        <div class="macro-pill carb">⚡ ${food.carb}g</div>
+        <div class="macro-pill fat">💧 ${food.fat}g</div>
+      </div>
+      <div style="font-size:.72em;color:var(--tx2);text-align:center;margin:6px 0">لكل ${food.per} ${food.unit} (تقريبي)</div>
+      <button class="btn btn-ai btn-full" onclick="confirmImgFood()">✅ إضافة للسجل</button>`;
+  }catch(err){
+    res.innerHTML=`<div style="color:var(--no);font-size:.75em;text-align:center;padding:10px">❌ ${err.message}<br><span style="color:var(--tx2);font-size:.85em">تأكد إن الـ API key يدعم رؤية الصور (Vision)</span></div>`;
+  }
+}
+
+function confirmImgFood(){
+  const food=window._tmpImgFood;
+  if(!food)return;
+  const id='img_'+Date.now();
+  N.foods[id]=food;
+  const mult=(food.unit==='جرام'||food.unit==='مل')?food.per/100:1;
+  const date=viewDate();if(!N.log[date])N.log[date]=[];
+  const hour=new Date().getHours();
+  const section=hour<11?'فطور':hour<16?'غداء':hour<20?'عشاء':'سناك';
+  N.log[date].push({name:food.name,qty:food.per,unit:food.unit,cal:food.cal*mult,pro:food.pro*mult,carb:food.carb*mult,fat:food.fat*mult,section,time:new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})});
+  saveD();
+  clM('imgAnalyzeMo');
+  toast('📸 تم إضافة '+food.name,'s');
+  go('home',document.querySelectorAll('.bni')[0]);
 }
 
 // ══════════════════════════════════════════
