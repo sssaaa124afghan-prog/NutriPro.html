@@ -882,6 +882,31 @@ body{
         <button class="btn btn-i btn-sm btn-full" onclick="document.getElementById('impMealsF').click()">📥 استيراد</button>
         <input type="file" id="impMealsF" accept=".json" onchange="showImpMealsPreview(event)" style="display:none">
       </div>
+      <div style="margin-top:11px;background:rgba(249,115,22,.07);border:1px solid rgba(249,115,22,.22);border-radius:13px;padding:13px">
+        <div style="font-size:.75em;font-weight:800;color:#f97316;margin-bottom:6px">🏋️ تصدير لـ GymPro AI</div>
+        <div style="font-size:.68em;color:rgba(255,255,255,.5);margin-bottom:10px;line-height:1.6">صدِّر سجل تغذيتك بصيغة JSON لرفعه في محلل الغذاء بتطبيق GymPro.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:9px">
+          <div>
+            <div style="font-size:.63em;color:rgba(255,255,255,.4);margin-bottom:4px">الفترة</div>
+            <select id="gymExDays" style="width:100%;padding:7px;border-radius:9px;border:1.5px solid rgba(249,115,22,.22);background:rgba(10,18,35,.92);color:#f0f0ff;font-family:inherit;font-size:.78em;outline:none">
+              <option value="7">آخر 7 أيام</option>
+              <option value="14">آخر 14 يوم</option>
+              <option value="30" selected>آخر 30 يوم</option>
+              <option value="90">آخر 90 يوم</option>
+              <option value="0">كل السجل</option>
+            </select>
+          </div>
+          <div>
+            <div style="font-size:.63em;color:rgba(255,255,255,.4);margin-bottom:4px">مستوى التفاصيل</div>
+            <select id="gymExDetail" style="width:100%;padding:7px;border-radius:9px;border:1.5px solid rgba(249,115,22,.22);background:rgba(10,18,35,.92);color:#f0f0ff;font-family:inherit;font-size:.78em;outline:none">
+              <option value="full" selected>تفاصيل كل وجبة</option>
+              <option value="summary">ملخص يومي فقط</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="exportForGymPro()" style="width:100%;padding:11px;background:linear-gradient(135deg,#f97316,#fb923c);color:#fff;font-weight:900;font-size:.84em;border-radius:10px;border:none;cursor:pointer;font-family:inherit">🏋️ تصدير لـ GymPro الآن</button>
+      </div>
+
     </div>
   </div>
 </div>
@@ -3373,6 +3398,52 @@ function toast(m,t='s') {
   el.className=`tst ts-${t}`; el.textContent=m; c.appendChild(el);
   setTimeout(() => { el.style.opacity='0'; el.style.transition='.25s'; setTimeout(()=>el.remove(),250); }, 2500);
 }
+
+/* ══ تصدير لـ GymPro ══ */
+function exportForGymPro(){
+  var days=parseInt(document.getElementById('gymExDays').value)||30;
+  var detail=document.getElementById('gymExDetail').value||'full';
+  var allDates=new Set(Object.keys(N.log||{}).concat(Object.keys(N.archive||{})));
+  var cutoff=days===0?'0000-00-00':(function(){var d=new Date();d.setDate(d.getDate()-days);return d.toISOString().split('T')[0];})();
+  var dates=[...allDates].filter(function(d){return d>=cutoff;}).sort();
+  if(!dates.length)return toast('لا توجد بيانات في الفترة المحددة','e');
+  var diary=[];
+  if(detail==='full'){
+    dates.forEach(function(date){
+      (N.log[date]||[]).forEach(function(m){
+        diary.push({date:date,name:m.name||'وجبة',qty:m.qty||0,unit:m.unit||'جرام',section:m.section||'',time:m.time||'',
+          nutrition:{calories:Math.round((m.cal||0)*10)/10,protein:Math.round((m.pro||0)*10)/10,carbohydrates:Math.round((m.carb||0)*10)/10,fat:Math.round((m.fat||0)*10)/10}});
+      });
+    });
+  }
+  var summaries=dates.map(function(date){
+    var meals=N.log[date]||[];
+    var t=meals.length>0
+      ?meals.reduce(function(s,m){return{cal:s.cal+(m.cal||0),pro:s.pro+(m.pro||0),carb:s.carb+(m.carb||0),fat:s.fat+(m.fat||0)};},{cal:0,pro:0,carb:0,fat:0})
+      :(N.archive[date]&&N.archive[date].totals)||{cal:0,pro:0,carb:0,fat:0};
+    return{date:date,calories:Math.round(t.cal),protein:Math.round(t.pro*10)/10,carbohydrates:Math.round(t.carb*10)/10,fat:Math.round(t.fat*10)/10,water_ml:(N.water&&N.water[date])||0,meals_count:meals.length||(N.archive[date]&&N.archive[date].meals)||0};
+  }).filter(function(d){return d.calories>0;});
+  if(!summaries.length)return toast('لا توجد وجبات مسجلة في الفترة المحددة','e');
+  var goals=N.goals||{};
+  var prof=N.profile||{};
+  var wLog=N.weightLog||{};
+  var weight_log=Object.keys(wLog).filter(function(d){return d>=cutoff;}).sort().map(function(d){return{date:d,weight_kg:wLog[d]};});
+  var payload={
+    _format:'nutripro_gym_v1',_app:'NutriPro AI',_exported:todayK(),
+    _days:summaries.length,_detail:detail,
+    goals:{calories:goals.cal||0,protein:goals.pro||0,carbohydrates:goals.carb||0,fat:goals.fat||0},
+    profile:{age:prof.age||0,height_cm:prof.height||0,gender:prof.gender||'male',activity_factor:prof.activityFactor||1.55,current_weight:prof.weight||0},
+    weight_log:weight_log,
+    diary_entries:diary,daily_summaries:summaries
+  };
+  var blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='nutripro_gym_'+todayK()+'_'+summaries.length+'days.json';
+  a.click();URL.revokeObjectURL(url);
+  toast('✅ تم تصدير '+summaries.length+' يوم | '+weight_log.length+' قياس وزن','s');
+}
+
 </script>
 </body>
 </html>
