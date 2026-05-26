@@ -8,6 +8,10 @@
 <title>NutriPro AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="theme-color" content="#764ba2">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="NutriPro AI">
+<link id="pwaManifest" rel="manifest">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
@@ -688,6 +692,114 @@ body{
 .bnav-center-ic:active{transform:scale(.9)}
 .bnav-center-lbl{font-size:.52em;font-weight:700;color:rgba(255,255,255,.65);font-family:'Tajawal'}
 
+/* ═══ RTL SEARCH FIX ═══ */
+.search-ic{position:absolute;right:13px!important;left:auto!important;top:50%;transform:translateY(-50%);font-size:.9em;z-index:2;pointer-events:none;color:rgba(255,255,255,.7)}
+.search-inp{padding:13px 40px 13px 14px!important}
+
+/* ═══ QTY STEPPER ═══ */
+.qty-step{width:36px;height:36px;border:none;border-radius:12px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:1.2em;cursor:pointer;flex-shrink:0;transition:.15s;display:flex;align-items:center;justify-content:center;font-weight:800}
+.qty-step:active{transform:scale(.85);background:rgba(255,255,255,.3)}
+
+/* ═══ QTY CHIPS ═══ */
+.qty-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px;justify-content:center}
+.qty-chip{padding:6px 14px;border:1.5px solid rgba(255,255,255,.22);border-radius:20px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);font-family:'Tajawal';font-size:.74em;font-weight:800;cursor:pointer;transition:.15s}
+.qty-chip:active{transform:scale(.92)}
+.qty-chip.sel{background:rgba(251,191,36,.28);border-color:rgba(251,191,36,.65);color:#fde68a;box-shadow:0 0 10px rgba(251,191,36,.2)}
+
+/* ═══ XP BAR ═══ */
+.xp-wrap{margin-top:8px}
+.xp-bar-track{height:3px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
+.xp-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#fbbf24,#a78bfa);transition:width .7s cubic-bezier(.34,1.56,.64,1)}
+.xp-meta{display:flex;justify-content:space-between;align-items:center;margin-top:3px}
+.xp-level-lbl{font-size:.56em;font-weight:800;color:#fde68a;letter-spacing:.3px}
+.xp-pts-lbl{font-size:.53em;color:rgba(255,255,255,.5);font-weight:600}
+
+/* ═══ DAILY CHALLENGE ═══ */
+.challenge-card{background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(249,115,22,.07));border:1px solid rgba(251,191,36,.28);border-radius:20px;padding:13px 15px;margin-bottom:14px;backdrop-filter:blur(12px);cursor:default;transition:.15s}
+.ch-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ch-icon{font-size:1.35em;flex-shrink:0}
+.ch-title{font-size:.72em;font-weight:800;color:#fde68a;letter-spacing:-.1px}
+.ch-sub{font-size:.61em;color:rgba(255,255,255,.65);margin-top:1px;line-height:1.4}
+.ch-prog{height:7px;background:rgba(255,255,255,.15);border-radius:7px;overflow:hidden;margin:0 0 5px}
+.ch-prog-fill{height:100%;background:linear-gradient(90deg,rgba(251,191,36,.9),rgba(249,115,22,.9));border-radius:7px;transition:width .6s cubic-bezier(.34,1.56,.64,1)}
+.ch-status{font-size:.62em;color:rgba(255,255,255,.6);display:flex;justify-content:space-between;align-items:center}
+.ch-done{border-color:rgba(52,211,153,.38)!important;background:linear-gradient(135deg,rgba(52,211,153,.1),rgba(34,211,238,.06))!important}
+.ch-done .ch-title{color:#6ee7b7!important}
+.ch-done .ch-prog-fill{background:linear-gradient(90deg,rgba(52,211,153,.9),rgba(34,211,238,.9))!important}
+
+/* ═══ CONFETTI ═══ */
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden}
+.conf-piece{position:absolute;top:-12px;border-radius:2px;animation:confFall linear forwards}
+@keyframes confFall{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(110vh) rotate(900deg) scale(.4);opacity:0}}
+
+/* ═══ GOAL RING CELEBRATION ═══ */
+@keyframes ringPop{0%{transform:scale(1)}35%{transform:scale(1.25)}70%{transform:scale(.95)}100%{transform:scale(1)}}
+.ring-item.just-hit{animation:ringPop .55s cubic-bezier(.34,1.56,.64,1)}
+
+/* ═══ QUICK RE-ADD ═══ */
+.quick-add-btn{width:30px;height:30px;border:none;border-radius:9px;background:rgba(52,211,153,.2);color:#6ee7b7;border:1px solid rgba(52,211,153,.3);cursor:pointer;font-size:1.1em;font-weight:800;flex-shrink:0;transition:.15s;display:flex;align-items:center;justify-content:center}
+.quick-add-btn:active{transform:scale(.82);background:rgba(52,211,153,.38)}
+
+/* ═══ FONT LEGIBILITY ═══ */
+.bni{font-size:.54em}
+.sc-lbl{font-size:.5em}
+.ring-lbl{font-size:.55em}
+.ring-tgt{font-size:.46em}
+.xp-pts-lbl,.xp-level-lbl{font-weight:700}
+
+/* ═══ MIC BUTTON ═══ */
+.mic-btn{position:absolute;left:10px!important;right:auto!important;top:50%;transform:translateY(-50%);width:32px;height:32px;border:none;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:50%;cursor:pointer;font-size:.95em;display:flex;align-items:center;justify-content:center;transition:.2s;z-index:2;padding:0}
+.mic-btn.listening{background:rgba(248,113,113,.35)!important;border-color:rgba(248,113,113,.6)!important;animation:micPulse .7s ease-in-out infinite}
+@keyframes micPulse{0%,100%{transform:translateY(-50%) scale(1)}50%{transform:translateY(-50%) scale(1.2)}}
+.search-inp.has-mic{padding-left:50px!important;padding-right:40px!important}
+/* ═══ TEMPLATES ═══ */
+.tpl-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tpl-name{font-size:.82em;font-weight:700}
+.tpl-sub{font-size:.68em;color:rgba(255,255,255,.6);margin-top:2px}
+.tpl-act-btn{padding:5px 11px;border-radius:10px;background:rgba(251,191,36,.2);border:1px solid rgba(251,191,36,.4);color:#fbbf24;font-size:.74em;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit}
+.tpl-del-btn{padding:5px 9px;border-radius:10px;background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.35);color:#fca5a5;font-size:.74em;cursor:pointer;font-family:inherit}
+.save-tpl-btn{width:100%;padding:9px;border-radius:12px;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.35);color:#c4b5fd;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;margin-top:4px}
+/* ═══ ACHIEVEMENTS ═══ */
+.ach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}
+.ach-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:13px;padding:9px 4px;text-align:center;transition:.3s}
+.ach-badge.unlocked{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.35)}
+.ach-icon{font-size:1.4em;display:block;margin-bottom:3px;filter:grayscale(1);opacity:.35;transition:.3s}
+.ach-badge.unlocked .ach-icon{filter:none;opacity:1}
+.ach-lbl{font-size:.58em;color:rgba(255,255,255,.4);line-height:1.3}
+.ach-badge.unlocked .ach-lbl{color:rgba(255,255,255,.8)}
+@keyframes achPop{0%{transform:scale(.4) rotate(-15deg);opacity:0}65%{transform:scale(1.2) rotate(4deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+.toast-ach{background:linear-gradient(135deg,rgba(251,191,36,.95),rgba(245,158,11,.95))!important;color:#1c1917!important;font-weight:800!important;border-color:rgba(251,191,36,.6)!important}
+/* ═══ NUTRITION SCORE ═══ */
+.nscore-card{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:11px 14px;margin-bottom:8px}
+.nscore-circle{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95em;font-weight:900;flex-shrink:0;border:2px solid}
+.nscore-A{background:rgba(52,211,153,.15);border-color:rgba(52,211,153,.5);color:#34d399}
+.nscore-B{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.4);color:#fbbf24}
+.nscore-C{background:rgba(249,115,22,.12);border-color:rgba(249,115,22,.4);color:#f97316}
+.nscore-D{background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.4);color:#f87171}
+.nscore-pills{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.nscore-pill{font-size:.6em;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.nscore-pill.ok{background:rgba(52,211,153,.18);color:#6ee7b7}
+/* ═══ WEEKLY REPORT ═══ */
+.wrpt-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.wrpt-grade{font-size:2.4em;font-weight:900;line-height:1;width:60px;text-align:center}
+.grade-A{color:#34d399}.grade-B{color:#fbbf24}.grade-C{color:#f97316}.grade-D{color:#f87171}
+.wrpt-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.wrpt-item{background:rgba(255,255,255,.07);border-radius:11px;padding:8px 10px;font-size:.72em}
+.wrpt-prog{height:3px;border-radius:3px;background:rgba(255,255,255,.12);margin-top:4px;overflow:hidden}
+.wrpt-prog-fill{height:100%;border-radius:3px;background:var(--ok);transition:width .5s ease}
+/* ═══ STREAK FREEZE ═══ */
+.freeze-token{display:inline-flex;align-items:center;gap:3px;background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.28);border-radius:16px;padding:2px 8px;font-size:.65em;color:#67e8f9;cursor:pointer}
+/* ═══ CHARTS ═══ */
+.chart-canvas-wrap{width:100%;margin-top:6px;border-radius:12px;overflow:hidden;background:rgba(255,255,255,.04);padding:8px 6px}
+canvas.nchart{display:block;width:100%!important;height:120px}
+/* ═══ OFFLINE BAR ═══ */
+.offline-bar{background:rgba(239,68,68,.88);backdrop-filter:blur(8px);color:#fff;text-align:center;font-size:.72em;font-weight:700;padding:5px 14px;display:none;position:relative;z-index:110}
+.offline-bar.show{display:block}
+/* ═══ DATA EXPORT ═══ */
+.data-btn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.data-btn{padding:10px;border-radius:13px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;border:1px solid;width:100%}
+.export-btn{background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.3);color:#6ee7b7}
+.import-btn{background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.3);color:#7dd3fc}
 @media print{*{color:#000!important;background:#fff!important}.bnav,.hdr,.btn,.mo,.tc{display:none!important}body{padding:5px!important}}
 </style>
 </head>
@@ -699,6 +811,7 @@ body{
 <div class="bg-blob blob3"></div>
 
 <div class="tc" id="toasts"></div>
+<div class="confetti-wrap" id="confettiWrap"></div>
 
 <!-- HEADER -->
 <div class="hdr">
@@ -722,12 +835,20 @@ body{
     <button class="nav-arrow" onclick="nextDay()">▶</button>
   </div>
   <div class="hdr-prog"><div class="hdr-prog-fill" id="hdrProg" style="width:0%"></div></div>
+  <div class="xp-wrap">
+    <div class="xp-bar-track"><div class="xp-bar-fill" id="xpFill" style="width:0%"></div></div>
+    <div class="xp-meta"><span class="xp-level-lbl" id="xpLevel">🌱 مبتدئ</span><div style="display:flex;align-items:center;gap:6px"><span id="freezeDisplay"></span><span class="xp-pts-lbl" id="xpPts">0 XP</span></div></div>
+  </div>
 </div>
+<div class="offline-bar" id="offlineBar">📡 أنت offline — التطبيق يعمل من الذاكرة المحلية</div>
 
 <div class="ctn">
   <!-- ══ HOME ══ -->
   <div class="pg act" id="pg-home">
     <div id="alertsArea"></div>
+    <div id="dailyChallengeArea"></div>
+    <div id="achievementsArea"></div>
+    <div id="nutritionScoreArea"></div>
 
     <div class="card" id="ringsCard" style="animation-delay:.05s">
       <div style="display:flex;gap:7px;margin-bottom:14px">
@@ -767,13 +888,17 @@ body{
       </div>
       <div class="search-wrap">
         <span class="search-ic">🔍</span>
-        <input class="search-inp" id="foodSearch" placeholder="ابحث أو اكتب أي أكل — AI يبحث تلقائياً" oninput="searchFood()" onfocus="searchFood()" autocomplete="off">
+        <input class="search-inp has-mic" id="foodSearch" placeholder="ابحث أو اكتب أي أكل — AI يبحث تلقائياً" oninput="searchFood()" onfocus="searchFood()" autocomplete="off">
+        <button class="mic-btn" id="micBtn" onclick="startVoice()">🎤</button>
         <div class="search-res" id="searchResults"></div>
       </div>
       <div id="selectedFood" style="display:none">
         <div class="sel-card" id="selectedFoodInfo"></div>
+        <div id="qtyChips" class="qty-chips" style="display:none"></div>
         <div class="qty-row">
+          <button class="qty-step" onclick="stepQty(-1)">−</button>
           <input type="number" class="qty-inp" id="qtyInput" value="100" min="1" step="1" inputmode="decimal" oninput="updateQtyPreview()">
+          <button class="qty-step" onclick="stepQty(1)">+</button>
           <span class="qty-unit" id="qtyUnit">جرام</span>
           <button class="btn btn-p" onclick="logMeal()">✅ أضف</button>
         </div>
@@ -782,6 +907,11 @@ body{
       <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12)">
         <div class="ct" style="border:none;padding:0;margin-bottom:9px;font-size:.72em;color:rgba(255,255,255,.6)">⏱️ الأخير</div>
         <div id="quickMeals"></div>
+      </div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12)">
+        <div class="ct" style="border:none;padding:0;margin-bottom:9px;font-size:.72em;color:rgba(255,255,255,.6)">📦 قوالبي</div>
+        <div id="templatesArea"></div>
+        <button class="save-tpl-btn" onclick="saveTemplate()">💾 حفظ وجبات اليوم كقالب</button>
       </div>
     </div>
   </div>
@@ -856,6 +986,7 @@ body{
     <div id="recompDashArea"></div>
     <div id="bodyCompArea"></div>
     <div id="analyticsArea"></div>
+    <div id="weeklyReportArea"></div>
     <div class="card">
       <div class="ct">📅 آخر 7 أيام</div>
       <div id="weekHistory"></div>
@@ -864,7 +995,17 @@ body{
       <div class="ct">🏆 أفضل يوم</div>
       <div id="bestDay"></div>
     </div>
+    <div class="card" id="chartsArea"></div>
     <div id="photoHistoryArea"></div>
+    <div class="card">
+      <div class="ct">💾 إدارة البيانات</div>
+      <div style="font-size:.72em;color:rgba(255,255,255,.55);margin-bottom:4px">تصدير أو استيراد كل بياناتك</div>
+      <div class="data-btn-row">
+        <button class="data-btn export-btn" onclick="exportData()">📤 تصدير نسخة احتياطية</button>
+        <button class="data-btn import-btn" onclick="document.getElementById('importFileInput').click()">📥 استيراد</button>
+      </div>
+      <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importData(event)">
+    </div>
   </div>
 
   <!-- ══ SAVED MEALS ══ -->
@@ -1043,8 +1184,6 @@ const DEFAULT_FOODS = {
   f46:{name:"جبنة بيضاء (فيتا)",cal:264,pro:14.2,carb:4.1,fat:21.3,unit:"جرام",per:100,cat:"ألبان"},
   f47:{name:"عيش بلدي (رغيف ~90g)",cal:245,pro:9,carb:49.5,fat:1.1,unit:"رغيف",per:1,cat:"كارب"},
   f48:{name:"مانجو (حبة وسط ~200g)",cal:120,pro:1.6,carb:30,fat:0.8,unit:"حبة",per:1,cat:"فاكهة"},
-  ai_1775977354384:{name:"ملوخية (خضار)",cal:23,pro:2,carb:4,fat:0,unit:"جرام",per:100,cat:"خضار"},
-  ai_1775986969485:{name:"نسكافيه 3×1 (ساشيه 20g)",cal:85,pro:1,carb:14,fat:3,unit:"حبة",per:1,cat:"مشروب"},
   f49:{name:"فخذ دجاج (بدون جلد وعظم)",cal:144,pro:18.3,carb:0,fat:7.4,unit:"جرام",per:100,cat:"بروتين"},
   f50:{name:"جمبري مطبوخ",cal:99,pro:21,carb:0.2,fat:1.1,unit:"جرام",per:100,cat:"بروتين"},
   f51:{name:"سردين معلب (في ماء، مصفى)",cal:136,pro:24.6,carb:0,fat:3.8,unit:"جرام",per:100,cat:"بروتين"},
@@ -1493,6 +1632,14 @@ function loadD() {
     if (!N.dayTypes) N.dayTypes = {};
     if (!N.photoHistory) N.photoHistory = [];
     if (!N.viewDate) N.viewDate = todayK();
+    if (!N.xp) N.xp = 0;
+    if (!N.personalRecords) N.personalRecords = {};
+    if (!N.claimedChallenges) N.claimedChallenges = {};
+    if (!N.templates) N.templates = {};
+    if (!N.achievements) N.achievements = {};
+    if (!N.lastQty) N.lastQty = {};
+    if (N.freezes === undefined) N.freezes = 0;
+    if (!N.frozenDays) N.frozenDays = [];
     if (!N.profile) N.profile = { age:27, weight:74, height:174, gender:'male', activityFactor:1.55 };
     if (!N.goalsInitialized) {
       N.goals = getTargetsForDay(todayK());
@@ -1549,8 +1696,7 @@ function forceMergeDefaultFoods() {
 
 function checkNewDay() {
   const today = todayK();
-  // دايماً اعرض اليوم الحالي عند الفتح
-  N.viewDate = today;
+  if (!N.viewDate || N.viewDate > today) N.viewDate = today;
   if (!N.lastActiveDay) { N.lastActiveDay = today; saveD(); return; }
   if (N.lastActiveDay === today) return;
   if (!N.archive) N.archive = {};
@@ -1561,6 +1707,7 @@ function checkNewDay() {
   saveD();
   const cal = Math.round(prevT.cal);
   if (cal > 0) setTimeout(() => toast(`📅 يوم ${N.lastActiveDay} — ${cal} سعر · ${Math.round(prevT.pro)}g بروتين`, 'i'), 800);
+  setTimeout(checkStreakFreeze, 1200);
 }
 
 function getDayType(dateStr) {
@@ -1611,7 +1758,7 @@ function go(n, b) {
   if (n==='db') renderDB();
   if (n==='stats') renderStats();
   if (n==='meals') renderSavedMeals();
-  if (n==='add') { renderQuickMeals(); document.getElementById('foodSearch').focus(); }
+  if (n==='add') { renderQuickMeals(); renderTemplates(); document.getElementById('foodSearch').focus(); }
   if (n==='home') renderAll();
   if (n==='ai') checkAiSetup();
 }
@@ -1633,6 +1780,7 @@ function renderAll() {
   const pct = Math.min(100, N.goals.cal ? Math.round(t.cal/N.goals.cal*100) : 0);
   const fill = document.getElementById('hdrProg');
   if (fill) fill.style.width = pct+'%';
+  renderXPBar(); renderDailyChallenge(); renderAchievements(); renderNutritionScore();
 }
 
 function renderRings() {
@@ -1698,9 +1846,16 @@ function renderWater() {
 }
 function setWater(n) {
   const date = viewDate();
+  const prev = N.water[date] || 0;
   N.water[date] = N.water[date] === n ? n-1 : n;
-  saveD(); renderWater();
-  toast(n>=8 ? '🎉 أكملت هدف الماء!' : `💧 ${n}/8 أكواب`, 's');
+  saveD(); renderWater(); renderDailyChallenge();
+  if (n >= 8 && prev < 8) {
+    addXP(20, 'هدف الماء مكتمل');
+    showConfetti(40);
+    toast('🎉 أكملت هدف الماء! +20 XP', 's');
+  } else {
+    toast(`💧 ${N.water[date]}/8 أكواب`, 's');
+  }
 }
 
 function renderAlerts() {
@@ -1790,7 +1945,13 @@ function renderSuggestions() {
 
 function calcStreak() {
   let s=0; const d=new Date();
-  while (true) { const k=d.toISOString().split('T')[0]; if (!(N.log[k]||[]).length) break; s++; d.setDate(d.getDate()-1); }
+  while (true) {
+    const k=d.toISOString().split('T')[0];
+    const hasLog=(N.log[k]||[]).length>0;
+    const frozen=(N.frozenDays||[]).includes(k);
+    if (!hasLog && !frozen) break;
+    s++; d.setDate(d.getDate()-1);
+  }
   return s;
 }
 function renderStreak() {
@@ -1880,12 +2041,13 @@ function selectFood(id) {
   document.getElementById('searchResults').classList.remove('show');
   document.getElementById('foodSearch').value = f.name;
   document.getElementById('qtyUnit').textContent = f.unit;
-  document.getElementById('qtyInput').value = f.per;
+  document.getElementById('qtyInput').value = (N.lastQty && N.lastQty[id]) ? N.lastQty[id] : f.per;
   document.getElementById('selectedFood').style.display = 'block';
   document.getElementById('selectedFoodInfo').innerHTML =
     `<div class="mi-info"><div class="mi-name">${f.name}</div><div class="mi-qty">لكل ${f.per} ${f.unit}</div></div>
     <div class="mi-macros"><span class="c-cal">${f.cal}</span><span class="c-pro">${f.pro}ب</span><span class="c-carb">${f.carb}ك</span><span class="c-fat">${f.fat}د</span></div>`;
   updateQtyPreview();
+  showQtyChips(id);
 }
 
 function quickSelect(id) { go('add',document.querySelectorAll('.bni')[1]); setTimeout(()=>selectFood(id),100); }
@@ -1909,11 +2071,16 @@ function logMeal() {
   const date = viewDate();
   if (!N.log[date]) N.log[date]=[];
   N.log[date].push({ name:f.name, qty, unit:f.unit, cal:f.cal*m, pro:f.pro*m, carb:f.carb*m, fat:f.fat*m, section, time:new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}) });
+  if (!N.lastQty) N.lastQty = {}; N.lastQty[selectedFoodId] = qty;
   saveD(); selectedFoodId=null;
   document.getElementById('selectedFood').style.display='none';
   document.getElementById('foodSearch').value='';
-  toast('✅ تم تسجيل '+f.name,'s');
+  const chipsEl = document.getElementById('qtyChips');
+  if (chipsEl) chipsEl.style.display='none';
+  addXP(10, 'وجبة مسجلة');
+  toast('✅ تم تسجيل '+f.name+' · +10 XP','s');
   go('home',document.querySelectorAll('.bni')[0]);
+  setTimeout(() => { checkPersonalRecords(); checkGoalCompletion(); renderDailyChallenge(); checkAchievements(); }, 350);
 }
 
 function renderQuickMeals() {
@@ -1928,7 +2095,10 @@ function renderQuickMeals() {
   document.getElementById('quickMeals').innerHTML = recent.length
     ? recent.map(([id,f]) => `<div class="sug-item" onclick="selectFood('${id}')">
         <div><div class="sug-name">${f.name}</div></div>
-        <div class="sug-mac"><span class="c-cal">${f.cal}</span><span class="c-pro">${f.pro}ب</span></div>
+        <div class="sug-mac" style="display:flex;align-items:center;gap:8px">
+          <span class="c-cal">${f.cal}</span><span class="c-pro">${f.pro}ب</span>
+          <button class="quick-add-btn" onclick="event.stopPropagation();quickLogMeal('${id}')">+</button>
+        </div>
       </div>`).join('')
     : '<div class="empty"><h3>لا سجل بعد</h3></div>';
 }
@@ -2103,6 +2273,8 @@ function delFood(id) {
 function renderStats() {
   renderRecompDash();
   renderPhotoHistory();
+  renderWeeklyReport();
+  setTimeout(renderCharts, 80);
   const today=todayK();
   const days7=[];
   for (let i=6;i>=0;i--) { const d=new Date(); d.setDate(d.getDate()-i); days7.push(d.toISOString().split('T')[0]); }
@@ -3443,6 +3615,696 @@ function exportForGymPro(){
   a.click();URL.revokeObjectURL(url);
   toast('✅ تم تصدير '+summaries.length+' يوم | '+weight_log.length+' قياس وزن','s');
 }
+
+// ══════════════════════════════════════════════
+// XP & LEVEL SYSTEM
+// ══════════════════════════════════════════════
+const LEVELS = [
+  { name:'🌱 مبتدئ',  xp:0    },
+  { name:'⭐ محترف',  xp:200  },
+  { name:'🔥 متقدم',  xp:600  },
+  { name:'💎 خبير',   xp:1500 },
+  { name:'👑 أسطورة', xp:3500 }
+];
+function getLevel(xp) {
+  let lv = 0;
+  for (let i = 0; i < LEVELS.length; i++) { if (xp >= LEVELS[i].xp) lv = i; }
+  return lv;
+}
+function getNextLevelXP(xp) {
+  const lv = getLevel(xp);
+  return lv < LEVELS.length - 1 ? LEVELS[lv + 1].xp : LEVELS[lv].xp + 1000;
+}
+function addXP(pts, reason) {
+  if (!N.xp) N.xp = 0;
+  const prevLv = getLevel(N.xp);
+  N.xp += pts;
+  const newLv = getLevel(N.xp);
+  saveD();
+  renderXPBar();
+  if (newLv > prevLv) {
+    showConfetti(45);
+    setTimeout(() => toast(`🎉 ارتقيت! ${LEVELS[newLv].name} — استمر!`, 'i'), 300);
+  }
+}
+function renderXPBar() {
+  const xp = N.xp || 0;
+  const lv = getLevel(xp);
+  const nextXP = getNextLevelXP(xp);
+  const prevXP = LEVELS[lv].xp;
+  const pct = prevXP === nextXP ? 100 : Math.min(100, Math.round(((xp - prevXP) / (nextXP - prevXP)) * 100));
+  const fillEl = document.getElementById('xpFill');
+  const lvEl   = document.getElementById('xpLevel');
+  const ptsEl  = document.getElementById('xpPts');
+  if (fillEl) fillEl.style.width = pct + '%';
+  if (lvEl)   lvEl.textContent  = LEVELS[lv].name;
+  if (ptsEl)  ptsEl.textContent = xp + ' XP';
+  const frzEl = document.getElementById('freezeDisplay');
+  if (frzEl) frzEl.innerHTML = (N.freezes > 0) ? `<span class="freeze-token">🧊 ${N.freezes}</span>` : '';
+}
+
+// ══════════════════════════════════════════════
+// CONFETTI
+// ══════════════════════════════════════════════
+function showConfetti(count = 35) {
+  const wrap = document.getElementById('confettiWrap');
+  if (!wrap) return;
+  const colors = ['#fbbf24','#a78bfa','#38bdf8','#34d399','#f472b6','#f97316','#fde68a','#67e8f9'];
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'conf-piece';
+    const size = 6 + Math.random() * 7;
+    el.style.cssText = [
+      `left:${10 + Math.random() * 80}%`,
+      `background:${colors[Math.floor(Math.random() * colors.length)]}`,
+      `animation-delay:${Math.random() * 0.7}s`,
+      `animation-duration:${1.4 + Math.random() * 1.2}s`,
+      `width:${size}px`,
+      `height:${size}px`,
+      `border-radius:${Math.random() > 0.5 ? '50%' : '2px'}`
+    ].join(';');
+    wrap.appendChild(el);
+    setTimeout(() => el.remove(), 3000);
+  }
+}
+
+// ══════════════════════════════════════════════
+// GOAL COMPLETION CELEBRATION
+// ══════════════════════════════════════════════
+const _celebratedGoals = new Set();
+function checkGoalCompletion() {
+  const t = getDayTotals(), g = N.goals;
+  const today = viewDate();
+  const macro = { pro:'البروتين', cal:'السعرات', carb:'الكارب', fat:'الدهون' };
+  let didCelebrate = false;
+  Object.keys(macro).forEach(k => {
+    const key = today + '_' + k;
+    if (t[k] >= g[k] * 0.98 && !_celebratedGoals.has(key)) {
+      _celebratedGoals.add(key);
+      if (!didCelebrate) { showConfetti(28); didCelebrate = true; }
+      setTimeout(() => {
+        toast(`🎉 أكملت هدف ${macro[k]}! +15 XP`, 's');
+        addXP(15, 'إكمال هدف ' + macro[k]);
+      }, didCelebrate ? 250 : 0);
+    }
+  });
+}
+
+// ══════════════════════════════════════════════
+// DAILY CHALLENGE
+// ══════════════════════════════════════════════
+const CHALLENGES = [
+  { id:'water8',    icon:'💧', title:'اشرب 8 أكواب ماء اليوم',       xp:30,
+    check:()=>(N.water[viewDate()]||0)>=8,
+    progress:()=>({cur:N.water[viewDate()]||0, max:8}) },
+  { id:'pro_goal',  icon:'💪', title:'صل لهدف البروتين اليومي',       xp:35,
+    check:()=>getDayTotals().pro>=N.goals.pro*0.95,
+    progress:()=>({cur:Math.round(getDayTotals().pro), max:N.goals.pro}) },
+  { id:'log3',      icon:'📝', title:'سجّل 3 وجبات أو أكثر اليوم',   xp:25,
+    check:()=>(N.log[viewDate()]||[]).length>=3,
+    progress:()=>({cur:(N.log[viewDate()]||[]).length, max:3}) },
+  { id:'cal_goal',  icon:'🔥', title:'أكمل 90% من هدف السعرات',       xp:30,
+    check:()=>getDayTotals().cal>=N.goals.cal*0.9,
+    progress:()=>({cur:Math.round(getDayTotals().cal), max:N.goals.cal}) },
+  { id:'log_weight',icon:'⚖️', title:'سجّل وزنك اليوم',              xp:20,
+    check:()=>!!N.weightLog[viewDate()],
+    progress:()=>({cur:N.weightLog[viewDate()]?1:0, max:1}) },
+  { id:'all_macro', icon:'🎯', title:'صل لكل أهداف الماكرو (±10%)',  xp:50,
+    check:()=>{ const t=getDayTotals(),g=N.goals; return t.pro>=g.pro*0.9&&t.cal>=g.cal*0.9&&t.carb>=g.carb*0.9; },
+    progress:()=>{ const t=getDayTotals(),g=N.goals; const p=[t.pro/g.pro,t.cal/g.cal,t.carb/g.carb]; return {cur:Math.round(Math.min(...p)*100), max:100}; } },
+  { id:'no_skip',   icon:'🌅', title:'سجّل أول وجبة قبل الظهر',       xp:20,
+    check:()=>!!(N.log[viewDate()]||[]).find(m=>parseInt((m.time||'13:00').split(':')[0])<12),
+    progress:()=>({cur:(N.log[viewDate()]||[]).find(m=>parseInt((m.time||'13:00').split(':')[0])<12)?1:0, max:1}) },
+];
+function getDailyChallenge() {
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+  return CHALLENGES[dayOfYear % CHALLENGES.length];
+}
+function renderDailyChallenge() {
+  const el = document.getElementById('dailyChallengeArea');
+  if (!el) return;
+  if (viewDate() !== todayK()) { el.innerHTML = ''; return; }
+  const ch = getDailyChallenge();
+  const prog = ch.progress();
+  const done = ch.check();
+  const pct  = Math.min(100, Math.round((prog.cur / prog.max) * 100));
+  const todayKey = todayK();
+  if (done && !(N.claimedChallenges && N.claimedChallenges[todayKey] === ch.id)) {
+    if (!N.claimedChallenges) N.claimedChallenges = {};
+    N.claimedChallenges[todayKey] = ch.id;
+    saveD();
+    addXP(ch.xp, 'تحدي اليوم');
+    showConfetti(22);
+    setTimeout(() => toast(`🎯 تحدي اليوم مكتمل! +${ch.xp} XP 🎉`, 'i'), 400);
+  }
+  el.innerHTML = `<div class="challenge-card ${done ? 'ch-done' : ''}">
+    <div class="ch-hdr">
+      <div class="ch-icon">${ch.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div class="ch-title">🎯 تحدي اليوم ${done ? '✅' : ''}</div>
+        <div class="ch-sub">${ch.title}</div>
+      </div>
+      <div style="font-size:.72em;font-weight:800;color:${done?'#6ee7b7':'#fde68a'};flex-shrink:0">+${ch.xp} XP</div>
+    </div>
+    <div class="ch-prog"><div class="ch-prog-fill" style="width:${pct}%"></div></div>
+    <div class="ch-status"><span>${prog.cur} / ${prog.max}</span><span style="color:${done?'#6ee7b7':'rgba(255,255,255,.6)'}">${done ? 'مكتمل! 🎉' : pct + '%'}</span></div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════
+// PERSONAL RECORDS
+// ══════════════════════════════════════════════
+function checkPersonalRecords() {
+  if (!N.personalRecords) N.personalRecords = {};
+  const t = getDayTotals(), pr = N.personalRecords, today = viewDate();
+  let newPR = null;
+  if (Math.round(t.pro) > (pr.bestPro || 0)) {
+    pr.bestPro = Math.round(t.pro); pr.bestProDate = today;
+    newPR = `🏆 رقم قياسي! أعلى بروتين: ${Math.round(t.pro)}g`;
+    addXP(25, 'رقم قياسي بروتين');
+  }
+  if (Math.round(t.cal) > (pr.bestCal || 0)) { pr.bestCal = Math.round(t.cal); pr.bestCalDate = today; }
+  const mealCnt = (N.log[today] || []).length;
+  if (mealCnt > (pr.mostMeals || 0)) { pr.mostMeals = mealCnt; pr.mostMealsDate = today; }
+  const streak = calcStreak();
+  if (streak > (pr.bestStreak || 0)) {
+    pr.bestStreak = streak; pr.bestStreakDate = today;
+    if (streak > 1 && !newPR) { newPR = `🔥 سجل جديد! ${streak} أيام متتالية!`; addXP(50, 'سجل streak جديد'); }
+    if (streak % 7 === 0) setTimeout(awardFreeze, 1500);
+  }
+  saveD();
+  if (newPR) setTimeout(() => toast(newPR, 's'), 700);
+}
+
+// ══════════════════════════════════════════════
+// QUICK QTY CHIPS & STEPPER
+// ══════════════════════════════════════════════
+function showQtyChips(foodId) {
+  const f = N.foods[foodId];
+  const el = document.getElementById('qtyChips');
+  if (!el) return;
+  const isGram = f.unit === 'جرام' || f.unit === 'مل';
+  if (isGram) {
+    const sizes = [50, 100, 150, 200, 250, 300];
+    el.innerHTML = sizes.map(s =>
+      `<div class="qty-chip${f.per===s?' sel':''}" onclick="setQty(${s})">${s}g</div>`
+    ).join('');
+  } else {
+    const sizes = [1, 2, 3, 4];
+    el.innerHTML = sizes.map(s =>
+      `<div class="qty-chip${f.per===s?' sel':''}" onclick="setQty(${s})">${s} ${f.unit}</div>`
+    ).join('');
+  }
+  el.style.display = 'flex';
+}
+function setQty(val) {
+  const inp = document.getElementById('qtyInput');
+  if (inp) { inp.value = val; updateQtyPreview(); }
+  document.querySelectorAll('.qty-chip').forEach(c => {
+    c.classList.toggle('sel', parseFloat(c.dataset.val || c.textContent) === val);
+  });
+}
+function stepQty(delta) {
+  const inp = document.getElementById('qtyInput');
+  if (!inp) return;
+  const f = selectedFoodId ? N.foods[selectedFoodId] : null;
+  const step = f && (f.unit === 'جرام' || f.unit === 'مل') ? 10 : 1;
+  const newVal = Math.max(1, (parseFloat(inp.value) || 0) + delta * step);
+  inp.value = newVal;
+  updateQtyPreview();
+}
+
+// ══════════════════════════════════════════════
+// QUICK ONE-TAP LOG (من الأخيرة)
+// ══════════════════════════════════════════════
+function quickLogMeal(id) {
+  const f = N.foods[id];
+  if (!f) return;
+  const m = (f.unit === 'جرام' || f.unit === 'مل') ? f.per / 100 : 1;
+  const hour = new Date().getHours();
+  const section = hour < 11 ? 'إفطار' : hour < 16 ? 'غداء' : hour < 20 ? 'عشاء' : 'سناك';
+  const date = viewDate();
+  if (!N.log[date]) N.log[date] = [];
+  N.log[date].push({ name:f.name, qty:f.per, unit:f.unit, cal:f.cal*m, pro:f.pro*m, carb:f.carb*m, fat:f.fat*m, section, time:new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}) });
+  saveD();
+  addXP(10, 'وجبة سريعة');
+  toast(`✅ ${f.name} (${f.per} ${f.unit}) +10 XP`, 's');
+  go('home', document.querySelectorAll('.bni')[0]);
+  setTimeout(() => { checkPersonalRecords(); checkGoalCompletion(); renderDailyChallenge(); checkAchievements(); }, 350);
+}
+
+// ══════════════════════════════════════════════
+// NUTRITION SCORE
+// ══════════════════════════════════════════════
+function calcDayScore(date) {
+  const t = getDayTotals(date), g = getTargetsForDay(date);
+  let score = 0;
+  const calPct = g.cal ? t.cal / g.cal : 0;
+  if (calPct >= 0.88 && calPct <= 1.12) score += 35;
+  else if (calPct >= 0.75 && calPct <= 1.2) score += 18;
+  const proPct = g.pro ? t.pro / g.pro : 0;
+  if (proPct >= 0.9) score += 30;
+  else if (proPct >= 0.7) score += 15;
+  const water = N.water[date] || 0;
+  if (water >= 8) score += 20;
+  else if (water >= 5) score += 10;
+  const meals = (N.log[date] || []).length;
+  if (meals >= 3) score += 15;
+  else if (meals >= 1) score += 7;
+  return Math.min(100, score);
+}
+
+function renderNutritionScore() {
+  const el = document.getElementById('nutritionScoreArea');
+  if (!el) return;
+  const date = viewDate();
+  const score = calcDayScore(date);
+  const grade = score >= 90 ? 'A+' : score >= 80 ? 'A' : score >= 65 ? 'B' : score >= 50 ? 'C' : 'D';
+  const cls = score >= 80 ? 'nscore-A' : score >= 65 ? 'nscore-B' : score >= 50 ? 'nscore-C' : 'nscore-D';
+  const t = getDayTotals(date), g = getTargetsForDay(date);
+  const pills = [
+    { label: `🔥 ${Math.round(t.cal)}/${g.cal} ك`, ok: t.cal >= g.cal * 0.88 && t.cal <= g.cal * 1.12 },
+    { label: `💪 ${Math.round(t.pro)}/${g.pro}g`, ok: t.pro >= g.pro * 0.9 },
+    { label: `💧 ${N.water[date] || 0}/8`, ok: (N.water[date] || 0) >= 8 },
+    { label: `🍽️ ${(N.log[date] || []).length} وجبات`, ok: (N.log[date] || []).length >= 3 },
+  ];
+  el.innerHTML = `<div class="nscore-card">
+    <div class="nscore-circle ${cls}">${grade}</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:.78em;font-weight:700">تقييم اليوم · <span style="color:rgba(255,255,255,.55);font-weight:400">${score}/100 نقطة</span></div>
+      <div class="nscore-pills">
+        ${pills.map(p => `<span class="nscore-pill ${p.ok ? 'ok' : ''}">${p.label}</span>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════
+// WEEKLY REPORT
+// ══════════════════════════════════════════════
+function renderWeeklyReport() {
+  const el = document.getElementById('weeklyReportArea');
+  if (!el) return;
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    days.push(d.toISOString().split('T')[0]);
+  }
+  let totalScore = 0, daysLogged = 0, calDays = 0, proDays = 0, waterDays = 0;
+  days.forEach(d => {
+    const s = calcDayScore(d);
+    totalScore += s;
+    if ((N.log[d] || []).length > 0) daysLogged++;
+    const t = getDayTotals(d), g = getTargetsForDay(d);
+    if (t.cal >= g.cal * 0.88 && t.cal <= g.cal * 1.12) calDays++;
+    if (t.pro >= g.pro * 0.9) proDays++;
+    if ((N.water[d] || 0) >= 8) waterDays++;
+  });
+  const avg = Math.round(totalScore / 7);
+  const grade = avg >= 85 ? 'A+' : avg >= 75 ? 'A' : avg >= 60 ? 'B' : avg >= 45 ? 'C' : 'D';
+  const gcls = avg >= 75 ? 'grade-A' : avg >= 60 ? 'grade-B' : avg >= 45 ? 'grade-C' : 'grade-D';
+  el.innerHTML = `<div class="card">
+    <div class="ct">📋 تقرير الأسبوع</div>
+    <div class="wrpt-header">
+      <div class="wrpt-grade ${gcls}">${grade}</div>
+      <div style="flex:1">
+        <div style="font-size:.82em;font-weight:700">متوسط ${avg}/100</div>
+        <div style="font-size:.68em;color:rgba(255,255,255,.55);margin-top:2px">${daysLogged}/7 أيام مسجلة هذا الأسبوع</div>
+      </div>
+    </div>
+    <div class="wrpt-grid">
+      <div class="wrpt-item">📅 أيام مسجلة<div class="wrpt-prog"><div class="wrpt-prog-fill" style="width:${daysLogged/7*100}%;background:var(--ok)"></div></div><div style="margin-top:3px;color:rgba(255,255,255,.7)">${daysLogged}/7</div></div>
+      <div class="wrpt-item">🔥 هدف السعرات<div class="wrpt-prog"><div class="wrpt-prog-fill" style="width:${calDays/7*100}%;background:var(--cal)"></div></div><div style="margin-top:3px;color:rgba(255,255,255,.7)">${calDays}/7 أيام</div></div>
+      <div class="wrpt-item">💪 هدف البروتين<div class="wrpt-prog"><div class="wrpt-prog-fill" style="width:${proDays/7*100}%;background:var(--pro)"></div></div><div style="margin-top:3px;color:rgba(255,255,255,.7)">${proDays}/7 أيام</div></div>
+      <div class="wrpt-item">💧 هدف الماء<div class="wrpt-prog"><div class="wrpt-prog-fill" style="width:${waterDays/7*100}%;background:var(--cy)"></div></div><div style="margin-top:3px;color:rgba(255,255,255,.7)">${waterDays}/7 أيام</div></div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════
+// STREAK FREEZE
+// ══════════════════════════════════════════════
+function awardFreeze() {
+  if ((N.freezes || 0) >= 3) return;
+  N.freezes = (N.freezes || 0) + 1;
+  saveD(); renderXPBar();
+  toast('🧊 حصلت على حماية streak! (' + N.freezes + '/3)', 's');
+}
+
+function offerFreeze(missedDate) {
+  if (!N.freezes || N.freezes <= 0) return;
+  const wrap = document.getElementById('toastsWrap') || document.getElementById('toasts');
+  if (!wrap) return;
+  const el = document.createElement('div');
+  el.className = 'toast-msg';
+  el.style.cssText = 'animation:tIn .35s ease forwards;display:flex;align-items:center;gap:8px;flex-wrap:wrap';
+  el.innerHTML = `<span>🧊 فاتك يوم! استخدم الحماية؟ (${N.freezes} متبقية)</span>
+    <button onclick="useFreeze('${missedDate}',this.parentElement)" style="padding:4px 10px;border-radius:8px;background:rgba(34,211,238,.3);border:1px solid rgba(34,211,238,.5);color:#fff;cursor:pointer;font-family:inherit;font-size:.85em">نعم 🧊</button>`;
+  wrap.appendChild(el);
+  setTimeout(() => { if (el.parentElement) el.remove(); }, 8000);
+}
+
+function useFreeze(date, toastEl) {
+  if (!N.freezes || N.freezes <= 0) return;
+  if (!N.frozenDays) N.frozenDays = [];
+  N.frozenDays.push(date);
+  N.freezes--;
+  saveD(); renderXPBar(); renderStreak();
+  if (toastEl) toastEl.remove();
+  toast('🧊 تم تفعيل الحماية — streak محفوظ!', 's');
+}
+
+function checkStreakFreeze() {
+  const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+  const yKey = yesterday.toISOString().split('T')[0];
+  if (!(N.log[yKey] || []).length && !(N.frozenDays || []).includes(yKey) && calcStreak() > 0) {
+    offerFreeze(yKey);
+  }
+}
+
+// ══════════════════════════════════════════════
+// CANVAS CHARTS
+// ══════════════════════════════════════════════
+function renderCharts() {
+  const el = document.getElementById('chartsArea');
+  if (!el) return;
+  const days = [], labels = [], calVals = [], proVals = [];
+  const dayNames = ['أحد','اثن','ثلا','أرب','خمس','جمع','سبت'];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const k = d.toISOString().split('T')[0];
+    days.push(k);
+    labels.push(dayNames[d.getDay()]);
+    const t = getDayTotals(k);
+    calVals.push(Math.round(t.cal));
+    proVals.push(Math.round(t.pro));
+  }
+  const goalCal = N.goals.cal || 2000;
+  el.innerHTML = `<div class="ct">📈 آخر 7 أيام</div>
+    <div style="font-size:.72em;color:rgba(255,255,255,.6);margin-bottom:6px">السعرات اليومية</div>
+    <div class="chart-canvas-wrap"><canvas class="nchart" id="calChart" height="120"></canvas></div>
+    <div style="font-size:.72em;color:rgba(255,255,255,.6);margin:10px 0 6px">البروتين اليومي</div>
+    <div class="chart-canvas-wrap"><canvas class="nchart" id="proChart" height="120"></canvas></div>`;
+  drawBarChart('calChart', labels, calVals, '#f97316', goalCal);
+  drawBarChart('proChart', labels, proVals, '#38bdf8', N.goals.pro || 150);
+}
+
+function drawBarChart(canvasId, labels, values, color, goalLine) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth || 300;
+  const H = 120;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const pad = { t: 10, b: 22, l: 8, r: 8 };
+  const cW = W - pad.l - pad.r, cH = H - pad.t - pad.b;
+  const max = Math.max(...values, goalLine) * 1.15 || 100;
+  const n = values.length;
+  const barW = (cW / n) * 0.55;
+  const gap = cW / n;
+  // goal line
+  const gy = pad.t + cH - (goalLine / max) * cH;
+  ctx.strokeStyle = 'rgba(255,255,255,.25)';
+  ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(pad.l + cW, gy); ctx.stroke();
+  ctx.setLineDash([]);
+  // bars
+  values.forEach((v, i) => {
+    const bH = Math.max(2, (v / max) * cH);
+    const x = pad.l + i * gap + (gap - barW) / 2;
+    const y = pad.t + cH - bH;
+    const alpha = v > 0 ? 0.85 : 0.2;
+    ctx.fillStyle = color.replace(')', `,${alpha})`).replace('rgb', 'rgba').replace('#', '');
+    // parse hex color
+    const r = parseInt(color.slice(1,3),16), g = parseInt(color.slice(3,5),16), b2 = parseInt(color.slice(5,7),16);
+    ctx.fillStyle = `rgba(${r},${g},${b2},${alpha})`;
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(x, y, barW, bH, 4) : ctx.rect(x, y, barW, bH);
+    ctx.fill();
+    // value label
+    if (v > 0) {
+      ctx.fillStyle = 'rgba(255,255,255,.8)';
+      ctx.font = `bold ${Math.max(9, Math.min(11, barW * 0.7))}px Tajawal,sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(v > 999 ? Math.round(v/100)/10+'k' : v, x + barW/2, y - 3);
+    }
+    // day label
+    ctx.fillStyle = 'rgba(255,255,255,.5)';
+    ctx.font = `9px Tajawal,sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.fillText(labels[i], x + barW/2, H - pad.b + 13);
+  });
+}
+
+// ══════════════════════════════════════════════
+// EXPORT / IMPORT
+// ══════════════════════════════════════════════
+function exportData() {
+  try {
+    const json = JSON.stringify(N, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `nutripro-backup-${todayK()}.json`;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a); URL.revokeObjectURL(url);
+    toast('📤 تم تصدير البيانات بنجاح', 's');
+  } catch(e) { toast('خطأ في التصدير', 'e'); }
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!data || (!data.log && !data.foods)) return toast('ملف غير صالح', 'e');
+      if (!confirm(`استيراد البيانات من "${file.name}"؟\nسيتم دمج البيانات مع الموجودة.`)) return;
+      N = { ...N, ...data };
+      saveD(); renderAll();
+      toast('📥 تم استيراد البيانات بنجاح', 's');
+    } catch(e) { toast('خطأ في قراءة الملف', 'e'); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// ══════════════════════════════════════════════
+// OFFLINE DETECTION
+// ══════════════════════════════════════════════
+(function initOffline() {
+  function update() {
+    const bar = document.getElementById('offlineBar');
+    if (!bar) return;
+    bar.classList.toggle('show', !navigator.onLine);
+  }
+  window.addEventListener('online', update);
+  window.addEventListener('offline', update);
+  update();
+})();
+
+// ══════════════════════════════════════════════
+// VOICE INPUT
+// ══════════════════════════════════════════════
+let _voiceActive = false;
+function startVoice() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return toast('المتصفح لا يدعم الإدخال الصوتي','e');
+  if (_voiceActive) return;
+  const rec = new SR();
+  rec.lang = 'ar-EG';
+  rec.interimResults = false;
+  rec.maxAlternatives = 3;
+  _voiceActive = true;
+  const btn = document.getElementById('micBtn');
+  if (btn) btn.classList.add('listening');
+  rec.start();
+  rec.onresult = e => {
+    const text = e.results[0][0].transcript;
+    parseVoiceInput(text);
+  };
+  rec.onend = () => {
+    _voiceActive = false;
+    if (btn) btn.classList.remove('listening');
+  };
+  rec.onerror = () => {
+    _voiceActive = false;
+    if (btn) btn.classList.remove('listening');
+    toast('تعذر التعرف على الصوت — حاول تاني','e');
+  };
+}
+
+function parseVoiceInput(text) {
+  toast(`🎤 "${text}"`, 's');
+  if (!N._voiceUsed) { N._voiceUsed = true; saveD(); checkAchievements(); }
+  const numMatch = text.match(/(\d+(?:[.,]\d+)?)/);
+  const qty = numMatch ? parseFloat(numMatch[1].replace(',', '.')) : null;
+  const unitWords = /جرام|غرام|جم|ملليلتر|مل|حبة|حبات|كوب|أكواب|ملعقة|ملاعق|شريحة|شرائح|قطعة|قطع/g;
+  let foodName = text.replace(/\d+(?:[.,]\d+)?/, '').replace(unitWords, '').replace(/\s+/g, ' ').trim();
+  const inp = document.getElementById('foodSearch');
+  if (inp && foodName) { inp.value = foodName; searchFood(); }
+  if (qty) {
+    const qi = document.getElementById('qtyInput');
+    if (qi) { qi.value = qty; updateQtyPreview(); }
+  }
+}
+
+// ══════════════════════════════════════════════
+// MEAL TEMPLATES
+// ══════════════════════════════════════════════
+function saveTemplate() {
+  const date = viewDate();
+  const meals = N.log[date] || [];
+  if (!meals.length) return toast('لا وجبات اليوم لحفظها','e');
+  const name = prompt('اسم القالب:', `وجبات ${new Date().toLocaleDateString('ar-EG',{weekday:'long'})}`);
+  if (!name || !name.trim()) return;
+  const id = 'tpl_' + Date.now();
+  N.templates[id] = { name: name.trim(), meals: meals.map(m => ({...m})), createdAt: Date.now() };
+  saveD(); renderTemplates(); checkAchievements();
+  toast('💾 تم حفظ القالب: ' + name.trim(), 's');
+}
+
+function applyTemplate(id) {
+  const tpl = N.templates[id];
+  if (!tpl) return;
+  const date = viewDate();
+  if (!N.log[date]) N.log[date] = [];
+  const now = new Date().toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+  tpl.meals.forEach(m => N.log[date].push({...m, time: now}));
+  saveD(); addXP(15, 'استخدام قالب'); checkAchievements();
+  renderAll(); go('home', document.querySelectorAll('.bni')[0]);
+  toast(`📦 تم تطبيق "${tpl.name}" · +15 XP`, 's');
+}
+
+function deleteTemplate(id) {
+  delete N.templates[id];
+  saveD(); renderTemplates();
+}
+
+function renderTemplates() {
+  const el = document.getElementById('templatesArea');
+  if (!el) return;
+  const tpls = Object.entries(N.templates || {});
+  el.innerHTML = tpls.length
+    ? tpls.map(([id, t]) => {
+        const totalCal = Math.round(t.meals.reduce((s, m) => s + (m.cal || 0), 0));
+        const totalPro = Math.round(t.meals.reduce((s, m) => s + (m.pro || 0), 0));
+        return `<div class="tpl-card">
+          <div style="min-width:0">
+            <div class="tpl-name">📦 ${t.name}</div>
+            <div class="tpl-sub">${t.meals.length} وجبة · <span class="c-cal">${totalCal}</span> سعر · <span class="c-pro">${totalPro}g ب</span></div>
+          </div>
+          <div style="display:flex;gap:5px;flex-shrink:0">
+            <button class="tpl-act-btn" onclick="applyTemplate('${id}')">+ أضف</button>
+            <button class="tpl-del-btn" onclick="deleteTemplate('${id}')">🗑</button>
+          </div>
+        </div>`;
+      }).join('')
+    : '';
+}
+
+// ══════════════════════════════════════════════
+// ACHIEVEMENTS
+// ══════════════════════════════════════════════
+const ACHIEVEMENTS = [
+  { id:'first_meal',  icon:'🍽️', name:'أول وجبة',       check:()=> Object.values(N.log).some(d=>d.length>0) },
+  { id:'streak7',     icon:'🔥', name:'أسبوع نار',       check:()=> calcStreak()>=7 },
+  { id:'streak30',    icon:'👑', name:'شهر ملتزم',       check:()=> calcStreak()>=30 },
+  { id:'water_goal',  icon:'💧', name:'ماي نينجا',       check:()=>{ let c=0; const t=new Date(); for(let i=0;i<7;i++){const d=new Date(t);d.setDate(d.getDate()-i);const k=d.toISOString().split('T')[0];if((N.water[k]||0)>=8)c++;} return c>=7; } },
+  { id:'pro5',        icon:'💪', name:'بروتين بطل',      check:()=>{ let c=0; Object.keys(N.log).forEach(d=>{const t=getDayTotals(d),g=getTargetsForDay(d);if(t.pro>=g.pro)c++;}); return c>=5; } },
+  { id:'cal_streak',  icon:'🎯', name:'ملك السعرات',     check:()=>{ let c=0; Object.keys(N.log).forEach(d=>{const t=getDayTotals(d),g=getTargetsForDay(d);if(t.cal>=g.cal*.92&&t.cal<=g.cal*1.08)c++;}); return c>=10; } },
+  { id:'meals50',     icon:'🏆', name:'50 وجبة',         check:()=> Object.values(N.log).reduce((s,d)=>s+d.length,0)>=50 },
+  { id:'meals100',    icon:'🌟', name:'100 وجبة',        check:()=> Object.values(N.log).reduce((s,d)=>s+d.length,0)>=100 },
+  { id:'foods20',     icon:'🌈', name:'20 نوع أكل',      check:()=> new Set(Object.values(N.log).flat().map(m=>m.name)).size>=20 },
+  { id:'perfect_day', icon:'💎', name:'يوم مثالي',       check:()=> Object.keys(N.log).some(d=>{const t=getDayTotals(d),g=getTargetsForDay(d);return t.cal>=g.cal*.93&&t.cal<=g.cal*1.07&&t.pro>=g.pro*.93&&(N.water[d]||0)>=8;}) },
+  { id:'xp500',       icon:'⭐', name:'500 XP',          check:()=> (N.xp||0)>=500 },
+  { id:'xp2000',      icon:'🔮', name:'2000 XP',         check:()=> (N.xp||0)>=2000 },
+  { id:'template1',   icon:'📦', name:'أول قالب',        check:()=> Object.keys(N.templates||{}).length>=1 },
+  { id:'template3',   icon:'🗂️', name:'3 قوالب',        check:()=> Object.keys(N.templates||{}).length>=3 },
+  { id:'pr3',         icon:'📈', name:'3 أرقام قياسية',  check:()=> Object.keys(N.personalRecords||{}).length>=3 },
+  { id:'legend',      icon:'🚀', name:'أسطورة',          check:()=> getLevel(N.xp||0).name.includes('أسطورة') },
+  { id:'log14',       icon:'📅', name:'14 يوم',          check:()=> Object.keys(N.log).filter(d=>(N.log[d]||[]).length>0).length>=14 },
+  { id:'water3row',   icon:'🌊', name:'3 أيام ماء',      check:()=>{ let c=0,mx=0; const keys=Object.keys(N.water).sort(); keys.forEach(k=>{c=(N.water[k]||0)>=8?c+1:0;mx=Math.max(mx,c);}); return mx>=3; } },
+  { id:'voice_used',  icon:'🎤', name:'صوت ذكي',         check:()=> !!(N._voiceUsed) },
+  { id:'allgoals',    icon:'🎪', name:'يوم مكتمل',       check:()=>{ const d=todayK(),t=getDayTotals(d),g=N.goals; return (N.water[d]||0)>=8&&t.cal>=g.cal*.9&&t.pro>=g.pro*.9&&t.carb>=g.carb*.9; } },
+];
+
+function checkAchievements() {
+  if (!N.achievements) N.achievements = {};
+  let newUnlock = false;
+  ACHIEVEMENTS.forEach(a => {
+    if (N.achievements[a.id]) return;
+    try { if (a.check()) { N.achievements[a.id] = Date.now(); newUnlock = true; showAchievementToast(a); } }
+    catch(e) {}
+  });
+  if (newUnlock) { saveD(); renderAchievements(); }
+}
+
+function showAchievementToast(a) {
+  const wrap = document.getElementById('toastsWrap');
+  if (!wrap) return;
+  const el = document.createElement('div');
+  el.className = 'toast-msg toast-ach';
+  el.style.animation = 'tIn .35s ease forwards, achPop .45s ease forwards';
+  el.innerHTML = `🏅 إنجاز جديد: ${a.icon} ${a.name}`;
+  wrap.appendChild(el);
+  setTimeout(() => el.remove(), 3800);
+  showConfetti(25);
+}
+
+function renderAchievements() {
+  const el = document.getElementById('achievementsArea');
+  if (!el) return;
+  const unlocked = N.achievements || {};
+  const count = Object.keys(unlocked).length;
+  if (count === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="card" style="animation-delay:.08s">
+    <div class="ct" style="cursor:pointer;user-select:none" onclick="toggleAch()">
+      🏅 إنجازاتي
+      <span style="font-size:.75em;color:rgba(255,255,255,.55);margin-right:6px">${count}/${ACHIEVEMENTS.length}</span>
+      <span id="achToggleIc" style="font-size:.7em;color:rgba(255,255,255,.4)">▼</span>
+    </div>
+    <div id="achGrid" style="display:none">
+      <div class="ach-grid">
+        ${ACHIEVEMENTS.map(a=>`<div class="ach-badge ${unlocked[a.id]?'unlocked':''}">
+          <span class="ach-icon">${a.icon}</span>
+          <div class="ach-lbl">${unlocked[a.id] ? a.name : '???'}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleAch() {
+  const g = document.getElementById('achGrid');
+  const ic = document.getElementById('achToggleIc');
+  if (!g) return;
+  const open = g.style.display !== 'none';
+  g.style.display = open ? 'none' : 'block';
+  if (ic) ic.textContent = open ? '▼' : '▲';
+}
+
+// ══════════════════════════════════════════════
+// PWA MANIFEST
+// ══════════════════════════════════════════════
+(function injectPWA() {
+  try {
+    const manifest = {
+      name: 'NutriPro AI', short_name: 'NutriPro',
+      description: 'تتبع التغذية بالذكاء الاصطناعي',
+      start_url: './', display: 'standalone',
+      background_color: '#764ba2', theme_color: '#764ba2',
+      orientation: 'portrait',
+      icons: [{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A5%97%3C/text%3E%3C/svg%3E", sizes: 'any', type: 'image/svg+xml' }]
+    };
+    const el = document.getElementById('pwaManifest');
+    if (el) el.href = 'data:application/json,' + encodeURIComponent(JSON.stringify(manifest));
+  } catch(e) {}
+})();
 
 </script>
 </body>
