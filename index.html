@@ -901,6 +901,48 @@ canvas.pie-cv{border-radius:50%}
 .mbar-fill.carb {background:linear-gradient(90deg,rgba(74,222,128,.9),rgba(134,239,172,.9))}
 .mbar-fill.fat  {background:linear-gradient(90deg,rgba(244,114,182,.9),rgba(249,168,212,.9))}
 
+/* ═══ SMART SUGGESTION ═══ */
+.smart-sug-card{background:linear-gradient(135deg,rgba(66,165,245,.1),rgba(30,100,255,.07));border:1px solid rgba(66,165,245,.28);border-radius:22px;padding:14px;margin-bottom:14px;backdrop-filter:blur(12px);animation:slideUp .35s ease both}
+.smart-sug-hdr{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.smart-sug-icon{font-size:1.3em;flex-shrink:0}
+.smart-sug-title{font-size:.78em;font-weight:800;color:#90caf9;flex:1}
+.smart-sug-item{display:flex;align-items:center;gap:9px;padding:10px 12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:14px;margin-bottom:6px;cursor:pointer;transition:.15s}
+.smart-sug-item:active{transform:scale(.98);background:rgba(255,255,255,.14)}
+.smart-sug-rank{font-size:.75em;font-weight:900;color:rgba(255,255,255,.3);min-width:16px}
+.smart-sug-info{flex:1;min-width:0}
+.smart-sug-name{font-size:.82em;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.smart-sug-qty{font-size:.6em;color:rgba(255,255,255,.45);margin-top:1px}
+.smart-sug-macros{display:flex;flex-direction:column;gap:2px;font-size:.65em;font-weight:800;text-align:left;flex-shrink:0}
+.smart-add-tap{width:34px;height:34px;border:none;border-radius:10px;background:rgba(66,165,245,.25);color:#90caf9;border:1px solid rgba(66,165,245,.4);font-size:1.3em;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.15s}
+.smart-add-tap:active{transform:scale(.82);background:rgba(66,165,245,.45)}
+.smart-sug-pct{font-size:.6em;padding:2px 8px;border-radius:10px;background:rgba(52,211,153,.18);color:#6ee7b7;font-weight:700;white-space:nowrap}
+
+/* ═══ PATTERN ANALYSIS ═══ */
+.pattern-card{border-radius:22px;padding:14px;margin-bottom:14px;backdrop-filter:blur(12px);animation:slideUp .4s ease both}
+.pattern-warn{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.25)}
+.pattern-good{background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.25)}
+.pattern-info{background:rgba(66,165,245,.07);border:1px solid rgba(66,165,245,.2)}
+.ptn-hdr{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.ptn-icon{font-size:1.35em;flex-shrink:0}
+.ptn-title{font-size:.78em;font-weight:800;color:#fff}
+.ptn-count{font-size:.62em;padding:2px 9px;border-radius:12px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-weight:700;margin-right:auto}
+.ptn-desc{font-size:.7em;color:rgba(255,255,255,.65);line-height:1.55;margin-bottom:7px}
+.ptn-action{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.06);border-radius:11px;padding:8px 11px;font-size:.68em;color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.1)}
+
+/* ═══ SMART WEEKLY COMPARE ═══ */
+.swc-card{background:rgba(167,139,250,.06);border:1px solid rgba(66,165,245,.2);border-radius:22px;padding:14px;margin-bottom:14px;backdrop-filter:blur(12px)}
+.swc-title{font-size:.8em;font-weight:800;color:#90caf9;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.swc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:12px}
+.swc-metric{background:rgba(255,255,255,.06);border-radius:14px;padding:10px 12px;border:1px solid rgba(255,255,255,.1)}
+.swc-m-lbl{font-size:.6em;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:4px}
+.swc-m-val{font-size:.95em;font-weight:800;color:#fff;display:flex;align-items:baseline;gap:5px}
+.swc-trend{font-size:.62em;font-weight:700;padding:1px 7px;border-radius:8px}
+.swc-up{background:rgba(52,211,153,.18);color:#6ee7b7}
+.swc-down{background:rgba(248,113,113,.18);color:#fca5a5}
+.swc-flat{background:rgba(255,255,255,.1);color:rgba(255,255,255,.5)}
+.swc-insight{background:rgba(255,255,255,.05);border-radius:13px;padding:11px 13px;border:1px solid rgba(255,255,255,.08);font-size:.72em;line-height:1.65;color:rgba(255,255,255,.85);margin-bottom:6px}
+.swc-insight::before{content:'💡 ';font-size:1em}
+
 /* ═══ WEIGHT IMPACT CARD ═══ */
 .wimpact-card{display:flex;align-items:center;gap:12px;border-radius:18px;padding:11px 15px;margin-bottom:10px;border:1px solid;animation:slideUp .3s ease both}
 .wimpact-surplus{background:rgba(66,165,245,.08);border-color:rgba(66,165,245,.25)}
@@ -995,6 +1037,7 @@ canvas.pie-cv{border-radius:50%}
     </div>
 
     <div id="streakArea"></div>
+    <div id="smartSuggestArea"></div>
     <div id="suggestArea"></div>
 
     <div class="card" style="animation-delay:.2s">
@@ -1121,6 +1164,8 @@ canvas.pie-cv{border-radius:50%}
     <div id="recompDashArea"></div>
     <div id="bodyCompArea"></div>
     <div id="analyticsArea"></div>
+    <div id="smartCompareArea"></div>
+    <div id="patternArea"></div>
     <div id="weeklyReportArea"></div>
     <div class="card">
       <div class="ct">📅 آخر 7 أيام</div>
@@ -4274,46 +4319,195 @@ function importData(event) {
 // ══════════════════════════════════════════════
 // VOICE INPUT
 // ══════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// VOICE INPUT — نسخة محسّنة
+// ══════════════════════════════════════════════
 let _voiceActive = false;
+let _voiceTimeout = null;
+const _ORIG_PLACEHOLDER = 'ابحث أو اكتب أي أكل — AI يبحث تلقائياً';
+
 function startVoice() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return toast('المتصفح لا يدعم الإدخال الصوتي','e');
+  if (!SR) return toast('❌ المتصفح لا يدعم الصوت — استخدم Chrome أو Edge','e');
   if (_voiceActive) return;
+
+  // انتقل لصفحة الإضافة إن لم تكن فيها
+  if (!document.getElementById('pg-add').classList.contains('act')) {
+    go('add', document.querySelectorAll('.bni')[1]);
+    setTimeout(startVoice, 350);
+    return;
+  }
+
   const rec = new SR();
   rec.lang = 'ar-EG';
-  rec.interimResults = false;
-  rec.maxAlternatives = 3;
+  rec.interimResults = true;   // نص فوري أثناء الكلام
+  rec.maxAlternatives = 5;
+  rec.continuous = false;
+
   _voiceActive = true;
   const btn = document.getElementById('micBtn');
+  const inp = document.getElementById('foodSearch');
   if (btn) btn.classList.add('listening');
+  if (inp) inp.placeholder = '🎤 تكلم الآن...';
+
+  // Timeout 8 ثواني
+  _voiceTimeout = setTimeout(() => {
+    rec.stop();
+    toast('⏱️ انتهى الوقت — قل الأكل والكمية بوضوح','w');
+  }, 8000);
+
   rec.start();
+
   rec.onresult = e => {
-    const text = e.results[0][0].transcript;
-    parseVoiceInput(text);
+    const result = e.results[0];
+    const interim = result[0].transcript;
+    // عرض النص الفوري في الـ placeholder
+    if (inp && !result.isFinal) inp.placeholder = `🎤 "${interim}"...`;
+    if (result.isFinal) {
+      clearTimeout(_voiceTimeout);
+      parseVoiceInput(interim, e.results[0]);
+    }
   };
+
   rec.onend = () => {
+    clearTimeout(_voiceTimeout);
     _voiceActive = false;
     if (btn) btn.classList.remove('listening');
+    if (inp) inp.placeholder = _ORIG_PLACEHOLDER;
   };
-  rec.onerror = () => {
+
+  rec.onerror = e => {
+    clearTimeout(_voiceTimeout);
     _voiceActive = false;
     if (btn) btn.classList.remove('listening');
-    toast('تعذر التعرف على الصوت — حاول تاني','e');
+    if (inp) inp.placeholder = _ORIG_PLACEHOLDER;
+    const msgs = {
+      'not-allowed': '❌ الميكروفون محظور — فعّله من إعدادات المتصفح',
+      'no-speech':   '🤫 لم يُسمع كلام — تكلم بصوت أعلى',
+      'network':     '📡 خطأ في الشبكة',
+      'audio-capture': '🎤 لم يُعثر على ميكروفون',
+      'aborted':     null
+    };
+    const msg = msgs[e.error];
+    if (msg) toast(msg, 'e');
   };
 }
 
-function parseVoiceInput(text) {
-  toast(`🎤 "${text}"`, 's');
+// تحويل الأرقام العربية الهندية (١٢٣) إلى غربية (123)
+function normalizeArabicNums(text) {
+  return text
+    .replace(/[٠١٢٣٤٥٦٧٨٩]/g, d => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)))
+    .replace(/،/g, ',');
+}
+
+// تحويل كلمات الأرقام العربية (فصحى + مصري) إلى أرقام
+function arabicWordsToDigits(text) {
+  // ── معالجة أولى: كيلو وكسوره قبل أي شيء ──
+  let t = text
+    .replace(/نص\s*كيلو/gi,  ' 500 ')  // نص كيلو = 500g
+    .replace(/ربع\s*كيلو/gi, ' 250 ')  // ربع كيلو = 250g
+    .replace(/تلت\s*كيلو/gi, ' 333 ')  // تلت كيلو ≈ 333g
+    .replace(/\bكيلو(جرام|غرام)?\b/gi, ' 1000 '); // كيلو = 1000g
+
+  // ── الجدول الرئيسي: مصري أولاً ثم فصحى (الأطول قبل الأقصر) ──
+  const map = [
+    // مئات مصري + مركبة
+    ['خمسمية وخمسين',550],['أربعمية وخمسين',450],['تلتمية وخمسين',350],
+    ['ميتين وخمسين',250], ['مية وخمسين',150],   ['مية وعشرين',120],
+    ['مية وتمانين',180],  ['مية وسبعين',170],    ['مية وستين',160],
+    ['مية وأربعين',140],  ['مية وتلاتين',130],   ['مية وعشرة',110],
+    ['مية وتلاتة',103],   ['مية وأربعة',104],    ['مية وخمسة',105],
+    // مئات فصحى + مركبة
+    ['خمسمئة وخمسين',550],['أربعمئة وخمسين',450],['ثلاثمئة وخمسين',350],
+    ['مئتين وخمسين',250], ['مئة وخمسين',150],    ['مئة وعشرين',120],
+    ['مئة وثمانين',180],  ['مئة وسبعين',170],    ['مئة وستين',160],
+    ['مئة وأربعين',140],  ['مئة وثلاثين',130],   ['مئة وعشرة',110],
+    // مئات مصري مفردة
+    ['خمسمية',500],['أربعمية',400],['تلتمية',300],['تلاتمية',300],
+    ['ربعمية',400],['ميتين',200],  ['مية',100],
+    // مئات فصحى مفردة
+    ['خمسمئة',500],['أربعمئة',400],['ثلاثمئة',300],['مئتين',200],
+    ['مائتين',200],['مئة',100],['مائة',100],
+    // عشرات مصري
+    ['تسعين',90],['تمانين',80],['سبعين',70],['ستين',60],
+    ['خمسين',50],['أربعين',40],['تلاتين',30],['عشرين',20],
+    // عشرات فصحى
+    ['ثمانين',80],['ثلاثين',30],
+    // عقود مصري
+    ['تسعتاشر',19],['تمنتاشر',18],['سبعتاشر',17],['ستاشر',16],
+    ['خمستاشر',15],['أرباعتاشر',14],['تلاتاشر',13],['اتناشر',12],
+    ['حداشر',11],['إحداشر',11],
+    // عقود فصحى
+    ['تسعة عشر',19],['ثمانية عشر',18],['سبعة عشر',17],['ستة عشر',16],
+    ['خمسة عشر',15],['أربعة عشر',14],['ثلاثة عشر',13],['اثنا عشر',12],
+    ['أحد عشر',11],
+    // آحاد مصري
+    ['عشرة',10],['عشره',10],
+    ['تسعة',9],  ['تمانية',8],['تمنية',8],['سبعة',7],
+    ['ستة',6],   ['خمسة',5], ['أربعة',4],['اربعة',4],
+    ['تلاتة',3], ['تلاته',3], ['اتنين',2],['اتنان',2],
+    ['واحد',1],  ['صفر',0],
+    // آحاد فصحى
+    ['ثمانية',8],['ثلاثة',3],['ثلاثه',3],['اثنين',2],['اثنان',2],
+  ];
+
+  map.forEach(([word, num]) => {
+    t = t.replace(new RegExp(word, 'gi'), ' '+num+' ');
+  });
+  return t.replace(/\s+/g,' ').trim();
+}
+
+function parseVoiceInput(rawText, allResults) {
   if (!N._voiceUsed) { N._voiceUsed = true; saveD(); checkAchievements(); }
+
+  // 1. تطبيع النص
+  let text = normalizeArabicNums(rawText);
+  text = arabicWordsToDigits(text);
+
+  // 2. استخراج الكمية
   const numMatch = text.match(/(\d+(?:[.,]\d+)?)/);
-  const qty = numMatch ? parseFloat(numMatch[1].replace(',', '.')) : null;
-  const unitWords = /جرام|غرام|جم|ملليلتر|مل|حبة|حبات|كوب|أكواب|ملعقة|ملاعق|شريحة|شرائح|قطعة|قطع/g;
-  let foodName = text.replace(/\d+(?:[.,]\d+)?/, '').replace(unitWords, '').replace(/\s+/g, ' ').trim();
+  const qty = numMatch ? parseFloat(numMatch[1].replace(',','.')) : null;
+
+  // 3. إزالة كلمات الحشو + الوحدات + الأرقام → يبقى اسم الطعام
+  // كلمات الحشو — فصحى + مصري
+  const fillers = /^(أضف|سجل|أريد|عندي|أكلت|كلت|شربت|تسجيل|إضافة|ضيف|ضف|خد|حسب|احسب|عايز أضيف|عايز اسجل|أنا أكلت|أنا عندي|أنا شربت|بقالي|عندي كمان|اضيف|اسجل)\s*/gi;
+  // وحدات — فصحى + مصري (كوباية، حتة، طبق، صحن، كيلو)
+  const unitWords = /\b(جرام|غرام|جم|ملليلتر|مل|حبة|حبات|حتة|حتت|كوب|كوباية|أكواب|كوبايات|ملعقة|ملاعق|معلقة|معالق|شريحة|شرائح|قطعة|قطع|سكوب|رغيف|طبق|صحن|وجبة)\b/gi;
+
+  let foodName = text
+    .replace(fillers, '')
+    .replace(numMatch ? numMatch[0] : '', '')
+    .replace(unitWords, '')
+    .replace(/\s+/g,' ').trim();
+
+  // 4. جرّب البدائل إن كان الاسم فارغاً
+  if (!foodName && allResults) {
+    for (let i = 1; i < Math.min(allResults.length, 5); i++) {
+      const alt = allResults[i]?.transcript;
+      if (!alt || alt === rawText) continue;
+      let altNorm = normalizeArabicNums(alt);
+      altNorm = arabicWordsToDigits(altNorm);
+      const altName = altNorm.replace(fillers,'').replace(numMatch?numMatch[0]:'','').replace(unitWords,'').replace(/\s+/g,' ').trim();
+      if (altName.length > 1) { foodName = altName; break; }
+    }
+  }
+
+  // 5. تطبيق النتيجة
+  toast(`🎤 سمعت: "${rawText}"`, 'i');
+
   const inp = document.getElementById('foodSearch');
   if (inp && foodName) { inp.value = foodName; searchFood(); }
+
   if (qty) {
     const qi = document.getElementById('qtyInput');
     if (qi) { qi.value = qty; updateQtyPreview(); }
+  }
+
+  // 6. إرشاد المستخدم إن فشل الاستخراج
+  if (!foodName && !qty) {
+    toast('❓ لم أفهم — قل مثلاً: "مئة وخمسين جرام صدر دجاج"','w');
+  } else if (foodName && !qty) {
+    toast('💡 لم أسمع الكمية — اكتبها أو قلها مع الطعام','w');
   }
 }
 
@@ -5383,7 +5577,7 @@ function renderAll() {
   N.goals = getTargetsForDay(viewDate());
   renderRings(); renderMacroBars(); renderWater();
   renderLogged(); renderSuggestions(); renderStreak(); renderAlerts();
-  renderRemainCard(); renderMacroPie(); renderEatingWindow(); renderWeightImpact();
+  renderRemainCard(); renderMacroPie(); renderEatingWindow(); renderWeightImpact(); renderSmartSuggestion();
   renderGoalPrediction(); renderNutritionScore();
   renderDailyChallenge(); renderAchievements();
   const t=getDayTotals();
@@ -5443,6 +5637,8 @@ function renderStats() {
   }
   renderWeightChart();
   renderRecipes();
+  renderSmartCompare();
+  renderPatternAnalysis();
 }
 
 // ══════════════════════════════════════════════
@@ -5505,6 +5701,335 @@ function initExtras() {
 }
 
 // ══════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// SMART DEFICIT SUGGESTION
+// ══════════════════════════════════════════════
+function renderSmartSuggestion() {
+  const el = document.getElementById('smartSuggestArea'); if (!el) return;
+  const t = getDayTotals(), g = N.goals;
+  if (viewDate() !== todayK()) { el.innerHTML=''; return; }
+
+  const remPro  = g.pro  - t.pro;
+  const remCal  = g.cal  - t.cal;
+  const remCarb = g.carb - t.carb;
+
+  // لا اقتراحات إذا الأهداف مكتملة
+  if (remPro <= (g.proMin ? g.proMin * 0.05 : 5) && remCal <= 80) { el.innerHTML=''; return; }
+
+  let mode, modeLabel, modeIcon;
+  if (remPro > 15) {
+    mode='pro'; modeLabel=`تحتاج ${Math.round(remPro)}g بروتين — إليك 3 خيارات سريعة`; modeIcon='💪';
+  } else if (remCal > 150) {
+    mode='cal'; modeLabel=`تحتاج ${Math.round(remCal)} سعر — إليك 3 خيارات متوازنة`; modeIcon='🔥';
+  } else if (remCarb > 30 && getDayType(viewDate()) === 'training') {
+    mode='carb'; modeLabel=`تحتاج ${Math.round(remCarb)}g كارب لتغذية التمرين`; modeIcon='🌾';
+  } else { el.innerHTML=''; return; }
+
+  const suggestions = Object.entries(N.foods)
+    .filter(([,f]) => f.cal > 0 && f.pro >= (mode==='pro' ? 5 : 0))
+    .map(([id, f]) => {
+      const isGram = f.unit==='جرام' || f.unit==='مل';
+      let qty, coverage;
+      if (mode === 'pro') {
+        qty = isGram ? Math.round((remPro / f.pro) * 100) : Math.ceil(remPro / f.pro);
+        qty = Math.max(isGram ? 50 : 1, Math.min(qty, isGram ? 400 : 6));
+        const m = isGram ? qty/100 : qty;
+        const proGiven = f.pro * m;
+        coverage = Math.min(100, Math.round(proGiven / remPro * 100));
+        const calCost  = Math.round(f.cal * m);
+        if (calCost > Math.max(remCal * 1.25, 300)) return null; // تجاوز السعرات كثيراً
+        return { id, f, qty, cal: calCost, pro: Math.round(proGiven),
+          carb: Math.round(f.carb * m), fat: Math.round(f.fat * m),
+          score: f.pro / f.cal, coverage };
+      } else if (mode === 'cal') {
+        qty = isGram ? Math.round((remCal / f.cal) * 100) : Math.ceil(remCal / f.cal);
+        qty = Math.max(isGram ? 30 : 1, Math.min(qty, isGram ? 350 : 5));
+        const m = isGram ? qty/100 : qty;
+        coverage = Math.min(100, Math.round((f.cal*m) / remCal * 100));
+        return { id, f, qty, cal: Math.round(f.cal*m), pro: Math.round(f.pro*m),
+          carb: Math.round(f.carb*m), fat: Math.round(f.fat*m),
+          score: (f.pro/f.cal) + (f.cal > 100 ? 0.5 : 0), coverage };
+      } else {
+        qty = isGram ? Math.round((remCarb / f.carb) * 100) : Math.ceil(remCarb / f.carb);
+        qty = Math.max(isGram ? 50 : 1, Math.min(qty, isGram ? 300 : 4));
+        const m = isGram ? qty/100 : qty;
+        coverage = Math.min(100, Math.round((f.carb*m) / remCarb * 100));
+        return { id, f, qty, cal: Math.round(f.cal*m), pro: Math.round(f.pro*m),
+          carb: Math.round(f.carb*m), fat: Math.round(f.fat*m),
+          score: f.carb / (f.cal||1), coverage };
+      }
+    })
+    .filter(Boolean)
+    .sort((a,b) => b.score - a.score)
+    .slice(0, 3);
+
+  if (!suggestions.length) { el.innerHTML=''; return; }
+
+  const medals = ['🥇','🥈','🥉'];
+  el.innerHTML = `<div class="smart-sug-card">
+    <div class="smart-sug-hdr">
+      <div class="smart-sug-icon">${modeIcon}</div>
+      <div class="smart-sug-title">${modeLabel}</div>
+    </div>
+    ${suggestions.map((s, i) => `
+      <div class="smart-sug-item" onclick="smartAddSuggestion('${s.id}',${s.qty})">
+        <div class="smart-sug-rank">${medals[i]}</div>
+        <div class="smart-sug-info">
+          <div class="smart-sug-name">${s.f.name}</div>
+          <div class="smart-sug-qty">${s.qty} ${s.f.unit}</div>
+        </div>
+        <div class="smart-sug-macros">
+          <span class="c-cal">${s.cal} ك</span>
+          <span class="c-pro">${s.pro}g ب</span>
+        </div>
+        <span class="smart-sug-pct">${s.coverage}% يكمل</span>
+        <button class="smart-add-tap" onclick="event.stopPropagation();smartAddSuggestion('${s.id}',${s.qty})">+</button>
+      </div>`).join('')}
+  </div>`;
+}
+
+function smartAddSuggestion(id, qty) {
+  const f = N.foods[id]; if (!f) return;
+  const m = (f.unit==='جرام'||f.unit==='مل') ? qty/100 : qty;
+  const hour = new Date().getHours();
+  const section = _selectedSection||(hour<11?'إفطار':hour<16?'غداء':hour<20?'عشاء':'سناك');
+  const date = viewDate(); if (!N.log[date]) N.log[date]=[];
+  N.log[date].push({ name:f.name, qty, unit:f.unit,
+    cal:f.cal*m, pro:f.pro*m, carb:f.carb*m, fat:f.fat*m,
+    section, time:new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}) });
+  if (!N.lastQty) N.lastQty={}; N.lastQty[id]=qty;
+  saveD(); addXP(10,'اقتراح ذكي');
+  toast(`✅ ${f.name} · ${Math.round(f.pro*m)}g ب · +10 XP`,'s');
+  renderAll();
+  setTimeout(()=>{ checkPersonalRecords(); checkGoalCompletion(); renderDailyChallenge(); checkAchievements(); },300);
+}
+
+// ══════════════════════════════════════════════
+// EATING PATTERN ANALYSIS
+// ══════════════════════════════════════════════
+function analyzeEatingPatterns() {
+  const dates = Object.keys(N.log||{}).sort().slice(-30);
+  if (dates.length < 5) return null;
+
+  const lateNightDays=[], skipBfDays=[], overshootDays=[];
+  const foodFreq={}, hourFreq=Array(24).fill(0);
+
+  dates.forEach(date => {
+    const meals = N.log[date]||[]; if (!meals.length) return;
+    const dayTotal = meals.reduce((s,m)=>s+m.cal,0);
+    const g = getTargetsForDay(date);
+
+    // أكل ليلي بعد 9م
+    meals.forEach(m => {
+      const h = parseInt((m.time||'00:00').split(':')[0]);
+      if (!isNaN(h)) { hourFreq[h]++; if (h >= 21) lateNightDays.push({date, name:m.name, h}); }
+      if (m.name) { foodFreq[m.name]=(foodFreq[m.name]||0)+1; }
+    });
+
+    // تخطي الإفطار
+    const hasBf = meals.some(m => parseInt((m.time||'12:00').split(':')[0]) < 11);
+    if (!hasBf && meals.length >= 2) skipBfDays.push(date);
+
+    // تجاوز الأقصى
+    if (dayTotal > g.cal * 1.2 && dayTotal > 500) overshootDays.push({date, cal:Math.round(dayTotal), over:Math.round(dayTotal-g.cal)});
+  });
+
+  // أكثر أوقات الأكل
+  const peakHours = hourFreq.map((c,h)=>({h,c})).sort((a,b)=>b.c-a.c).slice(0,3).filter(x=>x.c>0);
+  // أكثر الأكل تكراراً
+  const topFoods = Object.entries(foodFreq).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+  return { lateNightDays, skipBfDays, overshootDays, peakHours, topFoods, totalDays:dates.length };
+}
+
+function renderPatternAnalysis() {
+  const el = document.getElementById('patternArea'); if (!el) return;
+  const p = analyzeEatingPatterns();
+  if (!p) { el.innerHTML=''; return; }
+
+  const cards=[];
+
+  // أكل ليلي
+  const lnUnique = [...new Set(p.lateNightDays.map(x=>x.date))].length;
+  if (lnUnique >= 3) {
+    const lnFoods = [...new Set(p.lateNightDays.map(x=>x.name))].slice(0,2);
+    const avgH = Math.round(p.lateNightDays.reduce((s,x)=>s+x.h,0)/p.lateNightDays.length);
+    cards.push({ type:'warn', icon:'🌙',
+      title:'أكل ليلي متكرر',
+      count:`${lnUnique} يوم`,
+      desc:`تأكل عادةً ${lnFoods.join(' أو ')} بعد الساعة ${avgH}:00 — الأكل الليلي يرفع الكورتيزول ويضر بالتعافي العضلي والنوم العميق.`,
+      action:'💡 بديل: زبادي يوناني 150g = 15g بروتين · 90 سعر فقط · يدعم بناء العضل أثناء النوم'
+    });
+  }
+
+  // تخطي الإفطار
+  if (p.skipBfDays.length >= 4) {
+    cards.push({ type:'warn', icon:'🌅',
+      title:'تتخطى الإفطار',
+      count:`${p.skipBfDays.length} يوم من ${p.totalDays}`,
+      desc:`تخطي الإفطار يجعل تحقيق هدف ${N.goals.pro}g بروتين أصعب — وتزيد نسبة الأكل العشوائي بعد الظهر بـ 40%.`,
+      action:'💡 إفطار سريع: 3 بيض + 100g جبنة قريش = 38g بروتين · 270 سعر · 5 دقائق'
+    });
+  }
+
+  // تجاوز الهدف
+  if (p.overshootDays.length >= 3) {
+    const avgOver = Math.round(p.overshootDays.reduce((s,x)=>s+x.over,0)/p.overshootDays.length);
+    cards.push({ type:'warn', icon:'⬆️',
+      title:'تتجاوز الهدف الأقصى',
+      count:`${p.overshootDays.length} يوم · +${avgOver} سعر متوسط`,
+      desc:`تجاوز الأقصى بانتظام سيتحول لدهون — حتى في Lean Bulk الفائض يجب أن يكون محكوماً.`,
+      action:'💡 تقنية: سجّل وجباتك قبل أكلها لا بعدها — تتحكم أكثر'
+    });
+  }
+
+  // أوقات الذروة
+  if (p.peakHours.length) {
+    const ph = p.peakHours[0];
+    const timeLabel = ph.h < 12 ? 'الصباح' : ph.h < 17 ? 'بعد الظهر' : 'المساء';
+    cards.push({ type:'info', icon:'⏰',
+      title:`ذروة أكلك في ${timeLabel} (~${ph.h}:00)`,
+      count:`${ph.c} وجبة آخر 30 يوم`,
+      desc:`أكثر وجباتك تكون الساعة ${ph.h}:00 — هذا طبيعي، لكن تأكد من توزيع البروتين على مدار اليوم وليس في وجبة واحدة.`,
+      action:`💡 الهدف: كل وجبة ≥ 30g بروتين لضمان تخليق البروتين العضلي باستمرار`
+    });
+  }
+
+  // أكثر الأكل تكراراً
+  if (p.topFoods.length) {
+    const [topName, topCount] = p.topFoods[0];
+    if (topCount >= 6) {
+      cards.push({ type:'info', icon:'🍽️',
+        title:`الأكثر تكراراً: ${topName}`,
+        count:`${topCount} مرة`,
+        desc:`تنوع مصادر البروتين يعطيك أحماض أمينية مختلفة — صدر الدجاج ممتاز لكن أضف سمك وبيض ولحم للتنوع.`,
+        action:null
+      });
+    }
+  }
+
+  // لا مشاكل
+  if (!cards.length) {
+    cards.push({ type:'good', icon:'✨',
+      title:'أنماط أكلك صحية!',
+      count:null,
+      desc:`لم نكتشف أنماطاً سلبية متكررة في آخر ${p.totalDays} يوم — استمر على هذا النظام.`,
+      action:null
+    });
+  }
+
+  el.innerHTML = `<div style="font-size:.72em;font-weight:800;color:rgba(255,255,255,.5);margin-bottom:9px;letter-spacing:.4px;text-transform:uppercase">🔍 تحليل أنماط الأكل — آخر ${p.totalDays} يوم</div>
+  ${cards.map(c => `<div class="pattern-card pattern-${c.type}">
+    <div class="ptn-hdr">
+      <div class="ptn-icon">${c.icon}</div>
+      <div class="ptn-title">${c.title}</div>
+      ${c.count ? `<div class="ptn-count">${c.count}</div>` : ''}
+    </div>
+    <div class="ptn-desc">${c.desc}</div>
+    ${c.action ? `<div class="ptn-action"><span>${c.action}</span></div>` : ''}
+  </div>`).join('')}`;
+}
+
+// ══════════════════════════════════════════════
+// SMART WEEKLY COMPARISON
+// ══════════════════════════════════════════════
+function calcWeekStats(offsetWeeks) {
+  const days=[];
+  for (let i=0;i<7;i++) {
+    const d=new Date(); d.setDate(d.getDate()-(offsetWeeks*7+i));
+    days.push(d.toISOString().split('T')[0]);
+  }
+  const logged=days.filter(d=>(N.log[d]||[]).length>0);
+  if (!logged.length) return null;
+  const tots=logged.map(d=>getDayTotals(d));
+  const avg=k=>Math.round(tots.reduce((s,t)=>s+t[k],0)/logged.length);
+  const proHit=logged.filter(d=>{
+    const t=getDayTotals(d),g=getTargetsForDay(d);
+    return t.pro>=(g.proMin||g.pro*0.85);
+  }).length;
+  const calHit=logged.filter(d=>{
+    const t=getDayTotals(d),g=getTargetsForDay(d);
+    return t.cal>=(g.calMin||g.cal*0.88)&&t.cal<=g.cal*1.1;
+  }).length;
+  const wDays=days.filter(d=>N.weightLog[d]);
+  const avgW=wDays.length?parseFloat((wDays.reduce((s,d)=>s+parseFloat(N.weightLog[d]),0)/wDays.length).toFixed(1)):null;
+  const avgWater=Math.round(days.map(d=>N.water[d]||0).reduce((s,v)=>s+v,0)/7);
+  return { days:logged.length, avgCal:avg('cal'), avgPro:avg('pro'), avgCarb:avg('carb'),
+    proHit, calHit, avgW, avgWater };
+}
+
+function renderSmartCompare() {
+  const el=document.getElementById('smartCompareArea'); if (!el) return;
+  const tw=calcWeekStats(0), lw=calcWeekStats(1);
+  if (!tw) { el.innerHTML=''; return; }
+  const g=N.goals;
+
+  // دالة مساعدة للترند
+  const trend=(cur,prev,goodDir='up')=>{
+    if (!prev||prev===0) return {cls:'swc-flat',lbl:'—'};
+    const diff=cur-prev, pct=Math.round(Math.abs(diff)/Math.max(prev,1)*100);
+    if (Math.abs(diff)<3) return {cls:'swc-flat',lbl:'='};
+    const isGood=(goodDir==='up'&&diff>0)||(goodDir==='down'&&diff<0);
+    return { cls:isGood?'swc-up':'swc-down', lbl:(diff>0?'▲':'▼')+pct+'%', diff };
+  };
+
+  const calTr  = lw?trend(tw.avgCal,  lw.avgCal,  'up')  :{cls:'swc-flat',lbl:'—'};
+  const proTr  = lw?trend(tw.avgPro,  lw.avgPro,  'up')  :{cls:'swc-flat',lbl:'—'};
+  const daysTr = lw?trend(tw.days,    lw.days,    'up')  :{cls:'swc-flat',lbl:'—'};
+  const waTr   = lw?trend(tw.avgWater,lw.avgWater,'up')  :{cls:'swc-flat',lbl:'—'};
+  const wTr    = tw.avgW&&lw?.avgW?trend(tw.avgW,lw.avgW,'down'):{cls:'swc-flat',lbl:'—'};
+
+  // توليد نصائح ذكية
+  const insights=[];
+  if (tw.proHit>=5)
+    insights.push(`البروتين في النطاق ${tw.proHit}/7 أيام هذا الأسبوع — ${tw.proHit>=6?'ممتاز! هذا يضمن بناء عضل مستمر':'قريب من الهدف، حاول إضافة مصدر بروتين للسناك'}`);
+  else
+    insights.push(`البروتين في النطاق ${tw.proHit}/7 أيام فقط — الهدف ${g.proMin||Math.round(g.pro*0.9)}-${g.pro}g يومياً ضروري لبناء العضل`);
+
+  if (lw&&tw.avgCal<lw.avgCal-200)
+    insights.push(`متوسط السعرات انخفض ${lw.avgCal-tw.avgCal} عن الأسبوع الماضي — إذا كان وزنك ثابتاً فأنت في عجز قد يضر بالبناء`);
+  else if (lw&&tw.avgCal>lw.avgCal+300)
+    insights.push(`متوسط السعرات ارتفع ${tw.avgCal-lw.avgCal} — تأكد أنه يوم تمرين لا راحة`);
+
+  if (tw.avgW&&lw?.avgW) {
+    const wDiff=(tw.avgW-lw.avgW).toFixed(1);
+    if (parseFloat(wDiff)>0.4) insights.push(`الوزن ارتفع ${wDiff} كجم — طبيعي في Lean Bulk، راقب إذا تجاوز 0.5/أسبوع`);
+    else if (parseFloat(wDiff)<-0.4) insights.push(`الوزن انخفض ${Math.abs(wDiff)} كجم — تحقق من السعرات، قد تحتاج زيادة`);
+    else insights.push(`الوزن مستقر (${wDiff > 0 ? '+':''}${wDiff} كجم) — مثالي للـ Recomp`);
+  } else if (!tw.avgW) {
+    insights.push(`لم تسجّل الوزن هذا الأسبوع — سجّله الآن لنتابع التقدم الفعلي`);
+  }
+
+  if (tw.days<5) insights.push(`سجّلت ${tw.days}/7 أيام فقط — كلما زادت الأيام المسجلة كلما كانت التوصيات أدق`);
+
+  el.innerHTML=`<div class="swc-card">
+    <div class="swc-title">🔄 مقارنة الأسبوع ذكية <span style="font-size:.7em;color:rgba(255,255,255,.4);font-weight:400">مقابل الأسبوع الماضي</span></div>
+    <div class="swc-grid">
+      <div class="swc-metric">
+        <div class="swc-m-lbl">🔥 متوسط السعرات</div>
+        <div class="swc-m-val">${tw.avgCal} <span class="swc-trend ${calTr.cls}">${calTr.lbl}</span></div>
+        ${lw?`<div style="font-size:.58em;color:rgba(255,255,255,.35)">الأسبوع الماضي: ${lw.avgCal}</div>`:''}
+      </div>
+      <div class="swc-metric">
+        <div class="swc-m-lbl">💪 البروتين في النطاق</div>
+        <div class="swc-m-val">${tw.proHit}/7 <span class="swc-trend ${daysTr.cls}">${lw?tw.proHit-lw.proHit>0?'▲'+Math.abs(tw.proHit-lw.proHit):tw.proHit-lw.proHit<0?'▼'+Math.abs(tw.proHit-lw.proHit):'=':'—'}</span></div>
+        ${lw?`<div style="font-size:.58em;color:rgba(255,255,255,.35)">الأسبوع الماضي: ${lw.proHit}/7</div>`:''}
+      </div>
+      <div class="swc-metric">
+        <div class="swc-m-lbl">📅 أيام مسجلة</div>
+        <div class="swc-m-val">${tw.days}/7 <span class="swc-trend ${daysTr.cls}">${daysTr.lbl}</span></div>
+        ${lw?`<div style="font-size:.58em;color:rgba(255,255,255,.35)">الأسبوع الماضي: ${lw.days}/7</div>`:''}
+      </div>
+      <div class="swc-metric">
+        <div class="swc-m-lbl">⚖️ متوسط الوزن</div>
+        <div class="swc-m-val">${tw.avgW||'—'} ${tw.avgW?'كجم':''} <span class="swc-trend ${wTr.cls}">${wTr.lbl}</span></div>
+        ${lw?.avgW?`<div style="font-size:.58em;color:rgba(255,255,255,.35)">الأسبوع الماضي: ${lw.avgW}</div>`:''}
+      </div>
+    </div>
+    ${insights.map(i=>`<div class="swc-insight">${i}</div>`).join('')}
+  </div>`;
+}
+
 // COPY YESTERDAY MEALS
 // ══════════════════════════════════════════════
 function copyYesterdayMeals() {
