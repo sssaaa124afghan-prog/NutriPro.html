@@ -1940,7 +1940,21 @@ function loadD() {
     }
   } catch(e) { N.foods = { ...DEFAULT_FOODS }; N._dbVersion = DB_VERSION; saveD(); }
 }
-function saveD() { localStorage.setItem(K, JSON.stringify(N)); }
+function saveD() {
+  try {
+    localStorage.setItem(K, JSON.stringify(N));
+  } catch(e) {
+    // localStorage ممتلئ — احذف أقدم السجلات
+    if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+      const dates = Object.keys(N.log||{}).sort();
+      if (dates.length > 30) {
+        dates.slice(0, dates.length - 30).forEach(d => delete N.log[d]);
+        try { localStorage.setItem(K, JSON.stringify(N)); } catch(e2) {}
+        toast('⚠️ مساحة التخزين ممتلئة — حُذفت سجلات قديمة','w');
+      }
+    }
+  }
+}
 function todayK() { return new Date().toISOString().split('T')[0]; }
 function viewDate() { return N.viewDate || todayK(); }
 
@@ -3787,7 +3801,7 @@ function exportForGymPro(){
     var t=meals.length>0
       ?meals.reduce(function(s,m){return{cal:s.cal+(m.cal||0),pro:s.pro+(m.pro||0),carb:s.carb+(m.carb||0),fat:s.fat+(m.fat||0)};},{cal:0,pro:0,carb:0,fat:0})
       :((N.archive||{})[date]&&(N.archive||{})[date].totals)||{cal:0,pro:0,carb:0,fat:0};
-    return{date:date,calories:Math.round(t.cal),protein:Math.round(t.pro*10)/10,carbohydrates:Math.round(t.carb*10)/10,fat:Math.round(t.fat*10)/10,water_ml:(N.water&&N.water[date])||0,meals_count:meals.length||(N.archive[date]&&N.archive[date].meals)||0};
+    return{date:date,calories:Math.round(t.cal),protein:Math.round(t.pro*10)/10,carbohydrates:Math.round(t.carb*10)/10,fat:Math.round(t.fat*10)/10,water_ml:(N.water&&N.water[date])||0,meals_count:meals.length||((N.archive||{})[date]&&(N.archive||{})[date].meals)||0};
   }).filter(function(d){return d.calories>0;});
   if(!summaries.length)return toast('لا توجد وجبات مسجلة في الفترة المحددة','e');
   var goals=N.goals||{};
@@ -4047,7 +4061,7 @@ function quickLogMeal(id) {
   if (!f) return;
   const m = (f.unit === 'جرام' || f.unit === 'مل') ? f.per / 100 : 1;
   const hour = new Date().getHours();
-  const section = hour < 11 ? 'إفطار' : hour < 16 ? 'غداء' : hour < 20 ? 'عشاء' : 'سناك';
+  const section = _selectedSection || (hour < 11 ? 'إفطار' : hour < 16 ? 'غداء' : hour < 20 ? 'عشاء' : 'سناك');
   const date = viewDate();
   if (!N.log[date]) N.log[date] = [];
   N.log[date].push({ name:f.name, qty:f.per, unit:f.unit, cal:f.cal*m, pro:f.pro*m, carb:f.carb*m, fat:f.fat*m, section, time:new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}) });
