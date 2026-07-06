@@ -1447,8 +1447,8 @@ canvas.pie-cv{border-radius:50%}
 // ══════════════════════════════════════════════
 const K = 'nutriProAI_v3';
 let N = {
-  goals: { cal: 3000, pro: 175, carb: 385, fat: 84 },
-  profile: { age: 27, weight: 74, height: 172, gender: 'male', activity: 'moderate', activityFactor: 1.50 },
+  goals: { cal: 2600, pro: 160, carb: 330, fat: 70 },
+  profile: { age: 27, weight: 75, height: 173, gender: 'male', activity: 'moderate', activityFactor: 1.50 },
   foods: {}, log: {}, water: {}, weightLog: {},
   adjustmentHistory: [], lastAdaptiveRun: null,
   savedMeals: {}, viewDate: null, dayTypes: {}
@@ -1459,23 +1459,23 @@ let aiHistory = [];
 // ══════════════════════════════════════════════
 // RECOMP CONFIG
 // ══════════════════════════════════════════════
-// ── Lean Bulk Protocol (خبير تغذية 20 سنة)
-// هدف: بناء كتلة عضلية مع إبراز العضلات وعضلات البطن
-// طول: 172 | وزن: 74 | جيم 4 أيام | عمل مكتبي 10ساعات
-// BMR: 1685 | TDEE تمرين: 2780 | TDEE راحة: 2275
-// فائض +220 يوم تمرين | عجز -175 يوم راحة | متوسط +114/يوم
+// ── Recomp Protocol (خبير تغذية 20 سنة)
+// هدف: إعادة تركيب — بناء عضل + حرق دهون + نحت (أسرع وقت آمن)
+// وزن: 75 | طول: 173 | عمر: 27 | جيم 4-5 أيام | عمل مكتبي 11 ساعة
+// BMR: ~1700 | TDEE تمرين: ~2600 | TDEE راحة: ~2300
+// يوم تمرين: صيانة (وقود للنمو) | يوم راحة: عجز خفيف (حرق) | صافي أسبوعي: عجز بسيط
 // الهدف: نطاق [أدنى → أقصى] — الاحتساب صحيح ضمن النطاق
 const RECOMP = {
-  weight: 74, height: 172, age: 27,
+  weight: 75, height: 173, age: 27,
   activityFactor: 1.50,
   // ── أقصى (الهدف الكامل) ──
-  trainCal: 3000, trainPro: 175, trainCarb: 385, trainFat: 84,
-  restCal:  2100, restPro:  175, restCarb:  175, restFat:  78,
+  trainCal: 2600, trainPro: 160, trainCarb: 330, trainFat: 70,
+  restCal:  2050, restPro:  165, restCarb:  200, restFat:  65,
   // ── أدنى (الحد الإلزامي — لا تنزل عنه) ──
-  trainCalMin: 2700, trainProMin: 160, trainCarbMin: 280, trainFatMin: 65,
-  restCalMin:  1800, restProMin:  160, restCarbMin:  120, restFatMin:  60,
+  trainCalMin: 2400, trainProMin: 155, trainCarbMin: 285, trainFatMin: 60,
+  restCalMin:  1850, restProMin:  160, restCarbMin:  155, restFatMin:  55,
   // ── حماية ──
-  minPro: 160, minFat: 60, calFloor: 1800, calCeil: 3500
+  minPro: 155, minFat: 55, calFloor: 1750, calCeil: 2800
 };
 
 // ══════════════════════════════════════════════
@@ -6815,6 +6815,3 @@ function calcBMR() {
 </script>
 </body>
 </html>
-
-
-
