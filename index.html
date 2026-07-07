@@ -1055,6 +1055,7 @@ canvas.pie-cv{border-radius:50%}
     <div id="dailyChallengeArea"></div>
     <div id="achievementsArea"></div>
     <div id="nutritionScoreArea"></div>
+    <div id="weeklyAvgArea"></div>
 
     <div class="card" id="ringsCard" style="animation-delay:.05s">
       <div style="display:flex;gap:7px;margin-bottom:14px">
@@ -2095,9 +2096,7 @@ function getTargetsForDay(dateStr) {
 }
 
 // هل قيمة ضمن النطاق المقبول؟
-function inRange(val, min, max) {
-  return val >= (min||0) && val <= max * 1.08; // نسمح +8% فوق الأقصى
-}
+
 // تقييم ماكرو واحد: 'hit'=ضمن النطاق | 'low'=تحت الأدنى | 'over'=تجاوز الأقصى
 function macroStatus(val, min, max) {
   if (val < (min||0))       return 'low';
@@ -2326,27 +2325,6 @@ function undoDelete() {
   saveD(); renderAll();
   toast('↩️ تم الاستعادة', 's');
   _lastDeletedMeal = null;
-}
-
-function renderSuggestions() {
-  const t=getDayTotals(), g=N.goals;
-  const remPro=g.pro-t.pro, remCal=g.cal-t.cal;
-  const el = document.getElementById('suggestArea'); if (!el) return;
-  if (remPro<=5 && remCal<=50) { el.innerHTML=''; return; }
-  let sugs;
-  if (remPro > 30) sugs = Object.entries(N.foods).filter(([,f]) => f.pro>=10).sort((a,b) => b[1].pro/b[1].cal - a[1].pro/a[1].cal).slice(0,4);
-  else if (remCal > 200) sugs = Object.entries(N.foods).filter(([,f]) => f.cal>=50).sort((a,b) => b[1].cal-a[1].cal).slice(0,4);
-  else sugs = Object.entries(N.foods).filter(([,f]) => f.cal<150).sort((a,b) => a[1].cal-b[1].cal).slice(0,4);
-  if (!sugs.length) { el.innerHTML=''; return; }
-  el.innerHTML = `<div class="suggest-wrap">
-    <div class="suggest-ttl">💡 مقترحات ذكية
-      <span style="font-size:.85em;margin-right:auto;color:rgba(255,255,255,.65);font-weight:500">~${Math.max(0,Math.round(remPro))}g بروتين · ~${Math.max(0,Math.round(remCal))} سعر</span>
-    </div>
-    ${sugs.map(([id,f]) => `<div class="sug-item" onclick="quickSelect('${id}')">
-      <div><div class="sug-name">${f.name}</div><div style="font-size:.6em;color:rgba(255,255,255,.5)">${f.per} ${f.unit}</div></div>
-      <div class="sug-mac"><span class="c-cal">${f.cal}</span><span class="c-pro">${f.pro}ب</span></div>
-    </div>`).join('')}
-  </div>`;
 }
 
 function calcStreak() {
@@ -3127,12 +3105,6 @@ function buildImgMacroCard(food,weight) {
   const m=weight/(food.per||100);
   const cal=Math.round(food.cal*m),pro=Math.round(food.pro*m*10)/10,carb=Math.round(food.carb*m*10)/10,fat=Math.round(food.fat*m*10)/10;
   return `<div class="macro-card"><div class="macro-pill mp-cal">🔥 ${cal}</div><div class="macro-pill mp-pro">💪 ${pro}g</div><div class="macro-pill mp-carb">🌾 ${carb}g</div><div class="macro-pill mp-fat">🥑 ${fat}g</div></div>`;
-}
-
-function updateImgPreview() {
-  const food=window._tmpImgFood; if (!food) return;
-  const w=parseFloat(document.getElementById('imgWeightInput')?.value)||food.per;
-  const el=document.getElementById('imgMacroPreview'); if (el) el.innerHTML=buildImgMacroCard(food,w);
 }
 
 // تحديث المعاينة عند تعديل أي حقل يدوياً
@@ -4947,6 +4919,43 @@ function toggleAch() {
 // ══════════════════════════════════════════════
 // REMAINING MACROS CARD
 // ══════════════════════════════════════════════
+function renderWeeklyAvg() {
+  const el = document.getElementById('weeklyAvgArea'); if (!el) return;
+  let sumCal = 0, sumPro = 0, sumGoal = 0, logged = 0;
+  const base = new Date(viewDate() + 'T12:00:00Z');
+  for (let i = 0; i < 7; i++) {
+    const dk = new Date(base.getTime() - i * 86400000).toISOString().split('T')[0];
+    let tot = { cal: 0, pro: 0 }; try { tot = getDayTotals(dk) || tot; } catch (e) {}
+    if (tot.cal > 0) {
+      logged++; sumCal += tot.cal; sumPro += tot.pro;
+      let g = { cal: N.goals.cal }; try { g = getTargetsForDay(dk) || g; } catch (e) {}
+      sumGoal += g.cal || 0;
+    }
+  }
+  if (logged === 0) { el.innerHTML = ''; return; }
+  const avgCal = Math.round(sumCal / logged), avgPro = Math.round(sumPro / logged);
+  const net = Math.round(sumCal - sumGoal), adher = Math.round(logged / 7 * 100);
+  const netCol = net <= -3500 ? '#f87171' : net < 0 ? '#4ade80' : net > 1500 ? '#fbbf24' : '#67e8f9';
+  const verdict = (net < 0 && net > -3500) ? '✅ عجز خفيف مثالي للـ Recomp — عضل يبني + دهون تنزل'
+    : net <= -3500 ? '⚠️ عجز كبير — راقب فقدان العضل، زوّد البروتين'
+    : net >= 0 ? '📈 فائض — مناسب للتضخيم مش النحت' : '';
+  el.innerHTML = `<div class="card" style="animation-delay:.04s;padding:14px">
+    <div class="ct">📅 متوسط آخر 7 أيام</div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <div style="flex:1;text-align:center;background:rgba(0,0,0,.2);border-radius:12px;padding:10px 4px">
+        <div style="font-family:monospace;font-weight:900;font-size:1.35em;color:#fde68a">${avgCal}</div>
+        <div style="font-size:.58em;color:rgba(255,255,255,.5);margin-top:3px">سعرات/يوم</div></div>
+      <div style="flex:1;text-align:center;background:rgba(0,0,0,.2);border-radius:12px;padding:10px 4px">
+        <div style="font-family:monospace;font-weight:900;font-size:1.35em;color:#bae6fd">${avgPro}g</div>
+        <div style="font-size:.58em;color:rgba(255,255,255,.5);margin-top:3px">بروتين/يوم</div></div>
+      <div style="flex:1;text-align:center;background:rgba(0,0,0,.2);border-radius:12px;padding:10px 4px">
+        <div style="font-family:monospace;font-weight:900;font-size:1.35em;color:${netCol}">${net < 0 ? '−' : net > 0 ? '+' : ''}${Math.abs(net)}</div>
+        <div style="font-size:.58em;color:rgba(255,255,255,.5);margin-top:3px">صافي الأسبوع</div></div>
+    </div>
+    <div style="font-size:.66em;color:rgba(255,255,255,.55);margin-top:9px;text-align:center">الالتزام: ${logged}/7 يوم (${adher}%)</div>
+    ${verdict ? `<div style="font-size:.72em;color:${netCol};margin-top:7px;text-align:center;line-height:1.65">${verdict}</div>` : ''}
+  </div>`;
+}
 function renderRemainCard() {
   const el = document.getElementById('remainCard'); if (!el) return;
   const t = getDayTotals(), g = N.goals;
@@ -5586,13 +5595,6 @@ async function nativeShare() {
 // ══════════════════════════════════════════════
 // MEAL NOTES
 // ══════════════════════════════════════════════
-function saveMealNote(idx, val) {
-  const date=viewDate();
-  if (N.log[date]&&N.log[date][idx]) {
-    N.log[date][idx].note=val;
-    saveD();
-  }
-}
 
 // ══════════════════════════════════════════════
 // PROFILE MANAGER
@@ -5634,10 +5636,7 @@ function switchProfile(id) {
 // ══════════════════════════════════════════════
 // WATER GOAL FROM WEIGHT + NOTIFICATIONS
 // ══════════════════════════════════════════════
-function calcWaterGoal() {
-  const w=N.profile?.weight||70;
-  return Math.max(6, Math.round(w*0.033));
-}
+
 function getWaterGoal() { return N.waterGoal||8; }
 
 function openNotifSettings() {
@@ -5972,6 +5971,7 @@ function renderAll() {
   renderQdateRow();
   renderGoalPrediction(); renderNutritionScore();
   renderDailyChallenge(); renderAchievements();
+  renderWeeklyAvg();
   const t=getDayTotals();
   const pct=Math.min(100,N.goals.cal?Math.round(t.cal/N.goals.cal*100):0);
   const fill=document.getElementById('hdrProg'); if (fill) fill.style.width=pct+'%';
