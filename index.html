@@ -1056,6 +1056,7 @@ canvas.pie-cv{border-radius:50%}
     <div id="achievementsArea"></div>
     <div id="nutritionScoreArea"></div>
     <div id="weeklyAvgArea"></div>
+    <div id="proteinTimingArea"></div>
 
     <div class="card" id="ringsCard" style="animation-delay:.05s">
       <div style="display:flex;gap:7px;margin-bottom:14px">
@@ -4919,6 +4920,30 @@ function toggleAch() {
 // ══════════════════════════════════════════════
 // REMAINING MACROS CARD
 // ══════════════════════════════════════════════
+function renderProteinTiming() {
+  const el = document.getElementById('proteinTimingArea'); if (!el) return;
+  const meals = (N.log && N.log[viewDate()]) || [];
+  const withPro = meals.filter(m => (m.pro || 0) > 0);
+  if (withPro.length === 0) { el.innerHTML = ''; return; }
+  const target = 40; // ~40g لكل وجبة لتحفيز بناء العضل (MPS)
+  const optimal = withPro.filter(m => (m.pro || 0) >= 25).length;
+  const bars = withPro.map(m => {
+    const pro = Math.round(m.pro || 0), pct = Math.min(100, pro / target * 100);
+    const col = pro >= 30 ? '#4ade80' : pro >= 20 ? '#fbbf24' : '#f87171';
+    const nm = (m.name || 'وجبة').length > 20 ? (m.name.slice(0, 20) + '…') : (m.name || 'وجبة');
+    return `<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:.7em;margin-bottom:3px"><span style="color:rgba(255,255,255,.8)">${nm}</span><span style="color:${col};font-weight:800;font-family:monospace">${pro}g</span></div><div style="height:7px;background:rgba(0,0,0,.28);border-radius:5px;overflow:hidden"><i style="display:block;height:100%;width:${pct}%;background:${col};border-radius:5px;transition:width .5s"></i></div></div>`;
+  }).join('');
+  const tip = withPro.length < 3
+    ? '💡 وزّع بروتينك على 3-4 وجبات (~40g لكل واحدة) — أفضل لبناء العضل من وجبة واحدة كبيرة'
+    : optimal >= withPro.length - 1
+    ? '✅ توزيع ممتاز — كل وجبة فيها بروتين كافٍ لتحفيز البناء العضلي'
+    : '⚠️ بعض الوجبات بروتينها قليل — استهدف 30-40g لكل وجبة';
+  el.innerHTML = `<div class="card" style="animation-delay:.05s;padding:14px">
+    <div class="ct">🥩 توزيع البروتين على الوجبات</div>
+    <div style="margin-top:9px">${bars}</div>
+    <div style="font-size:.7em;color:rgba(186,230,253,.75);margin-top:8px;text-align:center;line-height:1.65">${tip}</div>
+  </div>`;
+}
 function renderWeeklyAvg() {
   const el = document.getElementById('weeklyAvgArea'); if (!el) return;
   let sumCal = 0, sumPro = 0, sumGoal = 0, logged = 0;
@@ -5971,7 +5996,7 @@ function renderAll() {
   renderQdateRow();
   renderGoalPrediction(); renderNutritionScore();
   renderDailyChallenge(); renderAchievements();
-  renderWeeklyAvg();
+  renderWeeklyAvg(); renderProteinTiming();
   const t=getDayTotals();
   const pct=Math.min(100,N.goals.cal?Math.round(t.cal/N.goals.cal*100):0);
   const fill=document.getElementById('hdrProg'); if (fill) fill.style.width=pct+'%';
